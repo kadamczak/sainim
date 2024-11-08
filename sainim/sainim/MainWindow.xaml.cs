@@ -14,7 +14,7 @@ namespace sainim
         {
             InitializeComponent();
 
-            RenderImage("dra.psd");
+            //RenderImage("dra.psd");
         }
 
         private async void RenderImage(string fileName)

@@ -3,10 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:sainim"
+        xmlns:local="clr-namespace:sainim" xmlns:views="clr-namespace:sainim.WPF.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Image Name="ImageSpace"/>
+        Title="Sainim" MinWidth="650" MinHeight="450" Height="1080" Width="1920" WindowState="Maximized">
+    <Grid Background="DarkGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="1*"/>
+         </Grid.ColumnDefinitions>
+
+        <views:ContentBarView Grid.Row="1" Grid.Column="0" />
+
+        <views:AnimationPreviewView Grid.Row="1" Grid.Column="1" DataContext="{Binding AnimationPreviewViewModel}"/>
+        <views:TimelineBarView Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding TimelineBarViewModel}"/>
+        <views:PlayBarView Grid.RowSpan="3" Grid.Column="2" DataContext="{Binding PlayBarViewModel}"/>
+        <views:MenuBarView Grid.Row="0" Grid.ColumnSpan="3" DataContext="{Binding MenuBarViewModel}"/>
     </Grid>
 </Window>
