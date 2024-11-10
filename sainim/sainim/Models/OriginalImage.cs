@@ -1,4 +1,5 @@
 ﻿using ImageMagick;
+using sainim.Models.Extensions;
 using System.IO;
 
 namespace sainim.Models
@@ -9,8 +10,10 @@ namespace sainim.Models
         public string ImagePath { get; }
         public DateTime LastModified { get; }
 
-        public List<IMagickImage<ushort>> StaticElements { get; }
-        public List<IGrouping<int, IMagickImage<ushort>>> Frames { get; }
+        public List<LayerModel> StaticElements { get; }
+        public List<FrameModel> Frames { get; }
+
+        private const uint MAX_THUMBNAIL_DIMENSION = 300;
 
         public OriginalImage(string filePath)
         {
@@ -18,16 +21,23 @@ namespace sainim.Models
             LastModified = File.GetLastWriteTime(filePath); //TODO catch
 
             var imageData = new MagickImageCollection(filePath);
+
             // remove combined image (it's not useful for animation)
             imageData.RemoveAt(0);
 
-            StaticElements = imageData.Where(IsStaticLayer).ToList();
+            StaticElements = imageData.Where(IsStaticLayer).Select(l => new LayerModel(l, MAX_THUMBNAIL_DIMENSION)).ToList();
+
             Frames = imageData.Where(IsAnimationLayer)
                               .GroupBy(GetFrameNumber)
                               .OrderBy(k => k.Key)
-                              .ToList();
-        }
+                              .Select(g =>
+                              {
+                                  var frameLayers = g.Select(l => new LayerModel(l, MAX_THUMBNAIL_DIMENSION)).ToList();
+                                  return new FrameModel(g.Key, frameLayers, MAX_THUMBNAIL_DIMENSION);
+                              }).ToList();
 
+            imageData.Dispose();
+        }
 
         private const string FRAME_SEPARATOR = "_";
         private bool IsAnimationLayer(IMagickImage layer) => layer.Label!.Contains(FRAME_SEPARATOR);

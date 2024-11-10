@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using sainim.Models;
+using sainim.Models.Extensions;
 using sainim.WPF.Bases;
-using sainim.WPF.Extensions;
 using sainim.WPF.Stores;
 
 namespace sainim.WPF.Commands.MenuBarCommands
