@@ -1,41 +1,48 @@
 ﻿using ImageMagick;
 using sainim.WPF.Bases;
 using sainim.WPF.Stores;
+using System.Collections.ObjectModel;
+using System.Windows.Media.Imaging;
 
 namespace sainim.WPF.ViewModels
 {
     public class ContentBarViewModel : ViewModelBase
     {
         private readonly OriginalImageStore _originalImageStore;
-        private const string FRAME_SEPARATOR = "_";
+
+        public ObservableCollection<BitmapSource> StaticElementThumbnails { get; set; } = [];
+        public ObservableCollection<BitmapSource> FrameThumbnails { get; set; } = [];
+
+
+        //public class ContentBarElement(int frameNumber, BitmapSource thumbnail)
+        //{
+        //    public int FrameNumber { get; } = frameNumber;
+        //    public BitmapSource Thumbnail { get; } = thumbnail;
+        //}
 
         public ContentBarViewModel(OriginalImageStore originalImageStore)
         {
             _originalImageStore = originalImageStore;
-            _originalImageStore.NewImageLoaded += OnNewImageLoaded;
+            _originalImageStore.NewImageLoaded += OnImageLoaded;
+            _originalImageStore.ImageReloaded += OnImageLoaded;
         }
 
-        private void OnNewImageLoaded()
+        private void OnImageLoaded()
         {
-            var staticLayers = ImageData.Where(IsStaticLayer).ToList();
+            //copy
+            var staticElementThumbnails = _originalImageStore.CurrentImage?.StaticElements.Select(e => new MagickImage(e)).Select(s => s.ToBitmapSource());
+            foreach(var element in staticElementThumbnails)
+            {
+                StaticElementThumbnails.Add(element);
+            }
 
-            var frames = ImageData.Where(IsAnimationLayer)
-                                  .GroupBy(GetFrameNumber)
-                                  .OrderBy(k => k.Key)
-                                  .ToList();
+            var frames = _originalImageStore.CurrentImage?.Frames;
+            var frameThumbnails = frames.Select(f => new MagickImageCollection(f).Merge().ToBitmapSource());
+            foreach (var element in frameThumbnails)
+            {
+                FrameThumbnails.Add(element);
+            }
 
-
-            //OnPropertyChanged(nameof(ImagePath));
-            //OnPropertyChanged(nameof(ImageData));
-            //OnPropertyChanged(nameof(LastModified));
         }
-
-        public string ImagePath => _originalImageStore.ImagePath;
-        public MagickImageCollection ImageData => _originalImageStore.ImageData;
-        public DateTime LastModified => _originalImageStore.LastModified;
-
-        private bool IsAnimationLayer(IMagickImage layer) => layer.Label!.Contains(FRAME_SEPARATOR);
-        private bool IsStaticLayer(IMagickImage layer) => !IsAnimationLayer(layer);
-        private int GetFrameNumber(IMagickImage layer) => Int32.Parse(layer.Label!.Split(FRAME_SEPARATOR)[0]);
     }
 }

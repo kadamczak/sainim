@@ -1,18 +1,28 @@
-﻿using ImageMagick;
+﻿using sainim.Models;
 
 namespace sainim.WPF.Stores
 {
     public class OriginalImageStore
     {
-        public string ImagePath { get; set; } = string.Empty;
-        public MagickImageCollection ImageData { get; set; } = new MagickImageCollection();
-        public DateTime LastModified { get; set; } = DateTime.MinValue;
+        public OriginalImage? CurrentImage { get; private set; } = null;
+
+        public void LoadNewImage(OriginalImage newImage)
+        {
+            CurrentImage = newImage;
+            OnNewImageLoaded();
+        }
+
+        public void ReloadImage(OriginalImage newImage)
+        {
+            CurrentImage = newImage;
+            OnImageReloaded();
+        }
 
         public event Action NewImageLoaded;
         public void OnNewImageLoaded() => NewImageLoaded?.Invoke();
 
 
-        public event Action CurrentImageUpdated;
-        public void OnCurrentImageUpdated() => CurrentImageUpdated?.Invoke();
+        public event Action ImageReloaded;
+        public void OnImageReloaded() => ImageReloaded?.Invoke();
     }
 }

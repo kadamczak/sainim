@@ -13,4 +13,7 @@
 
     <system:String x:Key="StaticElements">Elementy statyczne</system:String>
     <system:String x:Key="AnimationFrames">Klatki animacji</system:String>
+
+    <system:String x:Key="ImportPSDImage">Importuj obraz PSD</system:String>
+    <system:String x:Key="Reload">Załaduj obraz ponownie</system:String>
 </ResourceDictionary>

@@ -11,6 +11,8 @@
         <MenuItem Header="{DynamicResource File}">
             <MenuItem Header="{DynamicResource Import}" Command="{Binding ImportPsdImage}" />
             <MenuItem Header="{DynamicResource Export}"/>
+            <Separator/>
+            <MenuItem Header="{DynamicResource Reload}" Command="{Binding ReloadPsdImage}"/>
         </MenuItem>
         <MenuItem Header="{DynamicResource Settings}">
             <MenuItem Header="{DynamicResource Language}">

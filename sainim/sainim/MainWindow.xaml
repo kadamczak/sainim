@@ -19,11 +19,11 @@
             <ColumnDefinition Width="1*"/>
          </Grid.ColumnDefinitions>
 
-        <views:ContentBarView Grid.Row="1" Grid.Column="0" />
-
+        <views:ContentBarView Grid.Row="1" Grid.Column="0" DataContext="{Binding ContentBarViewModel}" />
         <views:AnimationPreviewView Grid.Row="1" Grid.Column="1" DataContext="{Binding AnimationPreviewViewModel}" />
         <views:TimelineBarView Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding TimelineBarViewModel}"/>
         <views:PlayBarView Grid.RowSpan="3" Grid.Column="2" DataContext="{Binding PlayBarViewModel}"/>
+        
         <views:MenuBarView Grid.Row="0" Grid.ColumnSpan="3" DataContext="{Binding MenuBarViewModel}"/>
     </Grid>
 </Window>
