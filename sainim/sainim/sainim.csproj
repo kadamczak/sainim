@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\Samples\" />
     <Folder Include="Models\" />
   </ItemGroup>
 
@@ -21,10 +20,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\Samples\dra.psd">
+    <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\Samples\pony.png">
+    <None Update="Resources\Samples\dra.psd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Samples\pony.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

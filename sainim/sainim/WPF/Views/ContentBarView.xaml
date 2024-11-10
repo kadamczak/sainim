@@ -10,13 +10,13 @@
         <ScrollViewer Padding="15 10">
             <StackPanel Orientation="Vertical">
                 <Viewbox MaxHeight="70">
-                    <Label Content="Static elements" />
+                    <Label Content="{DynamicResource StaticElements}" />
                 </Viewbox>
                 <Rectangle Height="150" Fill="Aqua"/>
                 <Rectangle Height="150" Fill="Green"/>
                 
                 <Viewbox MaxHeight="70">
-                    <Label Content="Animation frames" />
+                    <Label Content="{DynamicResource AnimationFrames}" />
                 </Viewbox>
                 <Rectangle Height="150" Fill="Aqua"/>
                 <Rectangle Height="150" Fill="Green"/>

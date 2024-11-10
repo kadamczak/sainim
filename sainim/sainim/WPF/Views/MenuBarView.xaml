@@ -8,12 +8,18 @@
              d:DesignHeight="450" d:DesignWidth="800">
     
     <Menu Grid.Row="0" Grid.ColumnSpan="3" Background="WhiteSmoke">
-        <MenuItem Header="File">
-            <MenuItem Header="Import" Command="{Binding ImportPsdImage}" />
-            <MenuItem Header="Export"/>
+        <MenuItem Header="{DynamicResource File}">
+            <MenuItem Header="{DynamicResource Import}" Command="{Binding ImportPsdImage}" />
+            <MenuItem Header="{DynamicResource Export}"/>
         </MenuItem>
-        <MenuItem Header="Help">
-            <MenuItem Header="Credits"/>
+        <MenuItem Header="{DynamicResource Settings}">
+            <MenuItem Header="{DynamicResource Language}">
+                <MenuItem Header="English" Command="{Binding ChangeLanguageToEnglish}"/>
+                <MenuItem Header="Polski" Command="{Binding ChangeLanguageToPolish}"/>
+            </MenuItem>
+        </MenuItem>
+        <MenuItem Header="{DynamicResource Info}">
+            <MenuItem Header="{DynamicResource Credits}"/>
         </MenuItem>
     </Menu>
 </UserControl>

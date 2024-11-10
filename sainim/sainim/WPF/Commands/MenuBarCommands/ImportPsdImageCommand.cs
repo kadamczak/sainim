@@ -21,9 +21,13 @@ namespace sainim.WPF.Commands.MenuBarCommands
             if (openFileDialog.ShowDialog() == true)
             {
                 string filePath = openFileDialog.FileName;
+
                 _originalImageStore.ImagePath = filePath;
                 _originalImageStore.ImageData = new MagickImageCollection(filePath);
                 _originalImageStore.LastModified = File.GetLastWriteTime(filePath);
+
+                // remove combined image (it's not useful for animation)
+                _originalImageStore.ImageData.RemoveAt(0);
 
                 _originalImageStore.OnNewImageLoaded();
             }

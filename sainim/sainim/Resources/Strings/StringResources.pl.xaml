@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    <system:String x:Key="File">Plik</system:String>
+
+    <system:String x:Key="Import">Importuj</system:String>
+    <system:String x:Key="Export">Exportuj</system:String>
+    
+    <system:String x:Key="Settings">Ustawienia</system:String>
+    <system:String x:Key="Language">Język</system:String>
+
+    <system:String x:Key="Info">Informacje</system:String>
+    <system:String x:Key="Credits">Autorzy</system:String>
+
+    <system:String x:Key="StaticElements">Elementy statyczne</system:String>
+    <system:String x:Key="AnimationFrames">Klatki animacji</system:String>
+</ResourceDictionary>
