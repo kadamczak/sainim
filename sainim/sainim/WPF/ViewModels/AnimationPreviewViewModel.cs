@@ -1,6 +1,8 @@
-﻿namespace sainim.WPF.ViewModels
+﻿using sainim.WPF.Bases;
+
+namespace sainim.WPF.ViewModels
 {
-    public class AnimationPreviewViewModel
+    public class AnimationPreviewViewModel : ViewModelBase
     {
     }
 }

@@ -17,6 +17,7 @@ namespace sainim
         {
             _host = Host.CreateDefaultBuilder()
                 .AddViewModels()
+                .AddStores()
                 .ConfigureServices(services =>
                 {
                     services.AddSingleton<MainWindow>((services) => new MainWindow()
@@ -30,11 +31,16 @@ namespace sainim
         protected override async void OnStartup(StartupEventArgs e)
         {
             await _host.StartAsync();
-
-            var mainWindow = _host.Services.GetRequiredService<MainWindow>();
-            //mainWindow.Show();
-
+            MainWindow = _host.Services.GetRequiredService<MainWindow>();
+            MainWindow.Show();
             base.OnStartup(e);
+        }
+
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            await _host.StopAsync();
+            _host.Dispose();
+            base.OnExit(e);
         }
     }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using sainim.WPF.Bases;
 
 namespace sainim.WPF.ViewModels
 {
-    public class ContentBarViewModel
+    public class ContentBarViewModel : ViewModelBase
     {
     }
 }

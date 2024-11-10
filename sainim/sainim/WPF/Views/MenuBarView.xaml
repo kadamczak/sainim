@@ -9,7 +9,7 @@
     
     <Menu Grid.Row="0" Grid.ColumnSpan="3" Background="WhiteSmoke">
         <MenuItem Header="File">
-            <MenuItem Header="Import"/>
+            <MenuItem Header="Import" Command="{Binding ImportPsdImage}" />
             <MenuItem Header="Export"/>
         </MenuItem>
         <MenuItem Header="Help">

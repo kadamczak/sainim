@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sainim" xmlns:views="clr-namespace:sainim.WPF.Views"
         mc:Ignorable="d"
-        Title="Sainim" MinWidth="650" MinHeight="450" Height="1080" Width="1920" WindowState="Maximized">
+        Title="Sainim" MinWidth="650" MinHeight="450" Height="1080" Width="1920" >
     <Grid Background="DarkGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="23"/>
@@ -21,7 +21,7 @@
 
         <views:ContentBarView Grid.Row="1" Grid.Column="0" />
 
-        <views:AnimationPreviewView Grid.Row="1" Grid.Column="1" DataContext="{Binding AnimationPreviewViewModel}"/>
+        <views:AnimationPreviewView Grid.Row="1" Grid.Column="1" DataContext="{Binding AnimationPreviewViewModel}" />
         <views:TimelineBarView Grid.Row="2" Grid.ColumnSpan="2" DataContext="{Binding TimelineBarViewModel}"/>
         <views:PlayBarView Grid.RowSpan="3" Grid.Column="2" DataContext="{Binding PlayBarViewModel}"/>
         <views:MenuBarView Grid.Row="0" Grid.ColumnSpan="3" DataContext="{Binding MenuBarViewModel}"/>
