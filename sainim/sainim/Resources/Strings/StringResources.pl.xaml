@@ -16,4 +16,6 @@
 
     <system:String x:Key="ImportPSDImage">Importuj obraz PSD</system:String>
     <system:String x:Key="Reload">Załaduj obraz ponownie</system:String>
+
+    <system:String x:Key="Unnamed">[Bez nazwy]</system:String>
 </ResourceDictionary>

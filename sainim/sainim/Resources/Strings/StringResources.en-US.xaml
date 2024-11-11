@@ -16,5 +16,6 @@
 
     <system:String x:Key="ImportPSDImage">Import PSD Image</system:String>
     <system:String x:Key="Reload">Reload Image</system:String>
-   
+
+    <system:String x:Key="Unnamed">[Unnamed]</system:String>
 </ResourceDictionary>
