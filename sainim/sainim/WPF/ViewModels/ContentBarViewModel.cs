@@ -10,8 +10,8 @@ namespace sainim.WPF.ViewModels
         private readonly OriginalImageStore _originalImageStore;
         private OriginalImage CurrentImage => _originalImageStore.CurrentImage!;
 
-        public ObservableCollection<LayerModel> StaticElements { get; set; } = [];
-        public ObservableCollection<FrameModel> Frames { get; set; } = [];
+        public ObservableCollection<BaseLayer> StaticElements { get; set; } = [];
+        public ObservableCollection<Frame> Frames { get; set; } = [];
 
 
         public ContentBarViewModel(OriginalImageStore originalImageStore)

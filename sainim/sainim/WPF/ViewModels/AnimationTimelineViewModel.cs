@@ -38,7 +38,7 @@ namespace sainim.WPF.ViewModels
 
             foreach (var frame in _originalImageStore.CurrentImage.Frames)
             {
-                FrameThumbnails.Add(frame.FrameThumbnail);
+                FrameThumbnails.Add(frame.Thumbnail);
             }
         }
     }

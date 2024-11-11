@@ -1,5 +1,4 @@
 ﻿using ImageMagick;
-using sainim.Models.Extensions;
 using System.IO;
 
 namespace sainim.Models
@@ -10,8 +9,8 @@ namespace sainim.Models
         public string ImagePath { get; }
         public DateTime LastModified { get; }
 
-        public List<LayerModel> StaticElements { get; }
-        public List<FrameModel> Frames { get; }
+        public List<StaticLayer> StaticElements { get; }
+        public List<Frame> Frames { get; }
 
         public OriginalImage(string filePath)
         {
@@ -25,23 +24,18 @@ namespace sainim.Models
             var background = new MagickImage(MagickColors.White, imageData[0].Width, imageData[0].Height);
             imageData.RemoveAt(0);
 
-            StaticElements = imageData.Where(IsStaticLayer).Select(l => new LayerModel(l, background)).ToList();
+            StaticElements = imageData.Where(BaseLayer.IsStaticLayer).Select(l => new StaticLayer(l, background)).ToList();
 
-            Frames = imageData.Where(IsAnimationLayer)
-                              .GroupBy(GetFrameNumber)
+            Frames = imageData.Where(BaseLayer.IsAnimationLayer)
+                              .GroupBy(BaseLayer.GetFrameNumber)
                               .OrderBy(k => k.Key)
                               .Select(g =>
                               {
-                                  var frameLayers = g.Select(l => new LayerModel(l, background)).ToList();
-                                  return new FrameModel(g.Key, frameLayers, background);
+                                  var frameSublayers = g.Select(l => new FrameSublayer(l)).ToList();
+                                  return new Frame(g.Key, frameSublayers, background);
                               }).ToList();
 
             imageData.Dispose();
         }
-
-        private const string FRAME_SEPARATOR = "_";
-        private bool IsAnimationLayer(IMagickImage layer) => layer.Label!.Contains(FRAME_SEPARATOR);
-        private bool IsStaticLayer(IMagickImage layer) => !IsAnimationLayer(layer);
-        private int GetFrameNumber(IMagickImage layer) => Int32.Parse(layer.Label!.Split(FRAME_SEPARATOR)[0]);
     }
 }
