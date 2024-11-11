@@ -2,7 +2,8 @@
 
 namespace sainim.WPF.ViewModels
 {
-    public class TimelineBarViewModel : ViewModelBase
+    public class TimelineBarViewModel(AnimationTimelineViewModel animationTimelineViewModel) : ViewModelBase
     {
+        public AnimationTimelineViewModel AnimationTimelineViewModel { get; } = animationTimelineViewModel;
     }
 }

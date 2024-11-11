@@ -25,7 +25,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Image HorizontalAlignment="Left" Grid.RowSpan="2" Grid.Column="0" Source="{Binding LayerThumbnail}"  />
-                                <Label HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Content="{Binding MainLabel}" FontSize="13" />
+                                <Label HorizontalAlignment="Left" FontWeight="Bold" Grid.Row="0" Grid.Column="1" Content="{Binding MainLabel}" FontSize="13" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -39,7 +39,7 @@
 
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid HorizontalAlignment="Left" Width="{Binding ElementName=FrameListBox, Path=ActualWidth}" >
+                            <Grid  HorizontalAlignment="Left" Width="{Binding ElementName=FrameListBox, Path=ActualWidth}" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="1*"/>
@@ -51,16 +51,16 @@
 
 
                                 <Image HorizontalAlignment="Left"  Grid.RowSpan="2" Grid.Column="0" Source="{Binding FrameThumbnail}"  />
-                                <Label HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="1" Content="{Binding FrameNumber}" FontSize="13"  />
+                                <Label HorizontalAlignment="Left" FontWeight="Bold"  Grid.Row="0" Grid.Column="1" Content="{Binding FrameNumber}" FontSize="13"  />
 
-                                <ListBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Layers}" >
-                                    <ListBox.ItemTemplate>
+                                <ItemsControl BorderThickness="0"  Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Layers}" >
+                                    <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Label Content="{Binding SpecialLayerLabel}" />
                                          </DataTemplate>
-                                    </ListBox.ItemTemplate>
+                                    </ItemsControl.ItemTemplate>
 
-                                </ListBox>
+                                </ItemsControl>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
