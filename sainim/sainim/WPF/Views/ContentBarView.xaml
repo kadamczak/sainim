@@ -28,13 +28,13 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid MaxHeight="200" Background="White" HorizontalAlignment="Left" Width="{Binding ElementName=StaticElementListBox, Path=ActualWidth}" >
+                            <Grid Background="White" HorizontalAlignment="Left" Width="{Binding ElementName=StaticElementListBox, Path=ActualWidth}" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Image HorizontalAlignment="Left" Grid.RowSpan="2" Grid.Column="0" Source="{Binding Thumbnail}"  />
+                                <Image MaxHeight="200" HorizontalAlignment="Left" Grid.RowSpan="2" Grid.Column="0" Source="{Binding Thumbnail}"  />
                                 <Label HorizontalAlignment="Left" FontWeight="Bold" Grid.Row="0" Grid.Column="1" Content="{Binding MainLabel}" FontSize="13" />
                             </Grid>
                         </DataTemplate>
@@ -54,7 +54,7 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid MaxHeight="200" Background="White" HorizontalAlignment="Left" Width="{Binding ElementName=FrameListBox, Path=ActualWidth}" >
+                            <Grid Background="White" HorizontalAlignment="Left" Width="{Binding ElementName=FrameListBox, Path=ActualWidth}" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="1*"/>
@@ -65,7 +65,7 @@
                                 </Grid.RowDefinitions>
 
 
-                                <Image HorizontalAlignment="Left"  Grid.RowSpan="2" Grid.Column="0" Source="{Binding Thumbnail}"  />
+                                <Image MaxHeight="200" HorizontalAlignment="Left"  Grid.RowSpan="2" Grid.Column="0" Source="{Binding Thumbnail}"  />
                                 <Label HorizontalAlignment="Left" FontWeight="Bold"  Grid.Row="0" Grid.Column="1" Content="{Binding Index}" FontSize="13"  />
 
                                 <ItemsControl BorderThickness="0"  Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Sublayers}" >

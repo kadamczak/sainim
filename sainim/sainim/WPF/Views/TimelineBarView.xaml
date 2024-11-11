@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="Gray">
         <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
-            <customui:AnimationTimelineControl Padding="30 30 0 0" DataContext="{Binding AnimationTimelineViewModel}" />
+            <customui:AnimationTimelineControl Padding="30 10 0 0" DataContext="{Binding AnimationTimelineViewModel}" />
         </ScrollViewer>
     </Grid>
 </UserControl>

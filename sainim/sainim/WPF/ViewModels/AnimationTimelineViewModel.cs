@@ -7,7 +7,10 @@ namespace sainim.WPF.ViewModels
 {
     public class AnimationTimelineViewModel : ViewModelBase
     {
+        private const int MaxFrameCount = 255;
+
         private readonly OriginalImageStore _originalImageStore;
+        public ObservableCollection<string> TickLabels { get; } = [];
         public ObservableCollection<BitmapSource> FrameThumbnails { get; set; } = [];
 
         private int _currentFrameIndex;
@@ -24,21 +27,33 @@ namespace sainim.WPF.ViewModels
             }
         }
 
-        public int FrameCount { get; set; } = 20;
+        public int MaxFrames { get; } = MaxFrameCount;
+        public double TickWidth { get; } = 80;
+        public double FrameThumbnailWidth { get; } = 70.27;
+        public double Width => MaxFrameCount * TickWidth;
 
         public AnimationTimelineViewModel(OriginalImageStore originalImageStore)
         {
             _originalImageStore = originalImageStore;
             _originalImageStore.NewImageLoaded += OnNewImageLoaded;
+
+            var tickLabels = Enumerable.Range(1, MaxFrameCount).Select(n => n.ToString());
+            foreach(var label in tickLabels)
+            {
+                TickLabels.Add(label);
+            }
         }
 
         private void OnNewImageLoaded()
         {
             FrameThumbnails.Clear();
 
-            foreach (var frame in _originalImageStore.CurrentImage.Frames)
+            for(int i = 0; i < 80; i++)
             {
-                FrameThumbnails.Add(frame.Thumbnail);
+                foreach (var frame in _originalImageStore.CurrentImage.Frames)
+                {
+                    FrameThumbnails.Add(frame.Thumbnail);
+                }
             }
         }
     }

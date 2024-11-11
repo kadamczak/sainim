@@ -8,32 +8,51 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <ItemsControl ItemsSource="{Binding TickLabels}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="0" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding}" FontSize="12" Foreground="White" Width="80.25" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
         <!-- Frame Slider -->
         <Slider x:Name="FrameSlider" 
-        Minimum="0" 
-        Maximum="{Binding FrameCount}" 
+        HorizontalAlignment="Left"
+        Width="{Binding Width, Mode=OneWay}"
+        Minimum="1" 
+        Maximum="{Binding MaxFrames}" 
         Value="{Binding CurrentFrameIndex, Mode=TwoWay}" 
         TickFrequency="1" 
         IsSnapToTickEnabled="True" 
         TickPlacement="TopLeft"
-        Grid.Row="0"/>
+        Grid.Row="1" Margin="3 0 0 0" Padding="0" />
+
+
 
         <!-- Thumbnails -->
-        <ItemsControl VerticalAlignment="Top" ItemsSource="{Binding FrameThumbnails}" Grid.Row="1">
-            <ItemsControl.ItemsPanel>
+        <ListBox VerticalAlignment="Top" ItemsSource="{Binding FrameThumbnails}" Grid.Row="2" BorderThickness="0" Margin="0" Padding="7 0 0 0">
+            <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
+                    <StackPanel Orientation="Horizontal" Margin="0"/>
                 </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Image Source="{Binding}" Width="100" Height="150" />
+                    <Image Source="{Binding}" Width="{Binding DataContext.FrameThumbnailWidth, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="0" />
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>
