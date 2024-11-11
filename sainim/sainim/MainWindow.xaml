@@ -6,17 +6,17 @@
         xmlns:local="clr-namespace:sainim" xmlns:views="clr-namespace:sainim.WPF.Views"
         mc:Ignorable="d"
         Title="Sainim" MinWidth="650" MinHeight="450" Height="576" Width="1024" WindowStartupLocation="CenterScreen" >
-    <Grid Background="DarkGray">
+    <Grid Background="DarkGray" >
         <Grid.RowDefinitions>
             <RowDefinition Height="23"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="7*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="80"/>
          </Grid.ColumnDefinitions>
 
         <views:ContentBarView Grid.Row="1" Grid.Column="0" DataContext="{Binding ContentBarViewModel}" />

@@ -13,8 +13,6 @@ namespace sainim.Models
         public List<LayerModel> StaticElements { get; }
         public List<FrameModel> Frames { get; }
 
-        private const uint MAX_THUMBNAIL_DIMENSION = 300;
-
         public OriginalImage(string filePath)
         {
             ImagePath = filePath;
@@ -22,18 +20,20 @@ namespace sainim.Models
 
             var imageData = new MagickImageCollection(filePath);
 
-            // remove combined image (it's not useful for animation)
+            // create transparent image with the width and height of the whole original image
+            // to center the thumbnails of the rest of the layers which might be offseted
+            var background = new MagickImage(MagickColors.White, imageData[0].Width, imageData[0].Height);
             imageData.RemoveAt(0);
 
-            StaticElements = imageData.Where(IsStaticLayer).Select(l => new LayerModel(l, MAX_THUMBNAIL_DIMENSION)).ToList();
+            StaticElements = imageData.Where(IsStaticLayer).Select(l => new LayerModel(l, background)).ToList();
 
             Frames = imageData.Where(IsAnimationLayer)
                               .GroupBy(GetFrameNumber)
                               .OrderBy(k => k.Key)
                               .Select(g =>
                               {
-                                  var frameLayers = g.Select(l => new LayerModel(l, MAX_THUMBNAIL_DIMENSION)).ToList();
-                                  return new FrameModel(g.Key, frameLayers, MAX_THUMBNAIL_DIMENSION);
+                                  var frameLayers = g.Select(l => new LayerModel(l, background)).ToList();
+                                  return new FrameModel(g.Key, frameLayers, background);
                               }).ToList();
 
             imageData.Dispose();

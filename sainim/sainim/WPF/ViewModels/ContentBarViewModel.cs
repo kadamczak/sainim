@@ -23,6 +23,9 @@ namespace sainim.WPF.ViewModels
 
         private void OnImageLoaded()
         {
+            StaticElements.Clear();
+            Frames.Clear();
+
             foreach (var element in CurrentImage.StaticElements)
                 StaticElements.Add(element);
 

@@ -34,6 +34,8 @@ namespace sainim.WPF.ViewModels
 
         private void OnNewImageLoaded()
         {
+            FrameThumbnails.Clear();
+
             foreach (var frame in _originalImageStore.CurrentImage.Frames)
             {
                 FrameThumbnails.Add(frame.FrameThumbnail);

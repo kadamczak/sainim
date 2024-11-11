@@ -11,10 +11,10 @@ namespace sainim.Models
         public string MainLabel { get; }
         public string? SpecialLayerLabel { get; }
 
-        public LayerModel(IMagickImage<ushort> fullLayerData, uint maxThumbnailDimension)
+        public LayerModel(IMagickImage<ushort> fullLayerData, MagickImage background, uint maxThumbnailDimension = 250)
         {
             FullLayerData = fullLayerData;
-            LayerThumbnail = fullLayerData.CreateThumbnail(maxThumbnailDimension);
+            LayerThumbnail = fullLayerData.CreateThumbnail(background, maxThumbnailDimension);
             MainLabel = fullLayerData.Label!;
             SpecialLayerLabel = GetSpecialLabel(fullLayerData);
         }

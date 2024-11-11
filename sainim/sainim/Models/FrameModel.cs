@@ -10,11 +10,11 @@ namespace sainim.Models
         public BitmapSource FrameThumbnail { get; }
         public List<LayerModel> Layers { get; }
 
-        public FrameModel(int frameNumber, List<LayerModel> layers, uint maxThumbnailDimension)
+        public FrameModel(int frameNumber, List<LayerModel> layers, MagickImage background, uint maxThumbnailDimension = 250)
         {
             FrameNumber = frameNumber;
             Layers = layers;
-            FrameThumbnail = this.MergeLayers().CreateThumbnail(maxThumbnailDimension);
+            FrameThumbnail = this.MergeLayers().CreateThumbnail(background, maxThumbnailDimension);
         }
 
         public IMagickImage<ushort> MergeLayers() => new MagickImageCollection(Layers.Select(l => l.FullLayerData)).Merge();
