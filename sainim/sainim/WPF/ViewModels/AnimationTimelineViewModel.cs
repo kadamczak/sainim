@@ -29,7 +29,6 @@ namespace sainim.WPF.ViewModels
 
         public int MaxFrames { get; } = MaxFrameCount;
         public double TickWidth { get; } = 80;
-        public double FrameThumbnailWidth { get; } = 70.27;
         public double Width => MaxFrameCount * TickWidth;
 
         public AnimationTimelineViewModel(OriginalImageStore originalImageStore)

@@ -25,5 +25,6 @@
         <views:PlayBarView Grid.RowSpan="3" Grid.Column="2" DataContext="{Binding PlayBarViewModel}"/>
         
         <views:MenuBarView Grid.Row="0" Grid.ColumnSpan="3" DataContext="{Binding MenuBarViewModel}"/>
+
     </Grid>
 </Window>

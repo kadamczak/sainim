@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\playbutton.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.0.0" />
     <PackageReference Include="Magick.NET.SystemWindowsMedia" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
@@ -28,7 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Images\" />
+    <Resource Include="Resources\Images\playbutton.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

@@ -4,9 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:sainim.WPF.Views"
+             xmlns:customui="clr-namespace:sainim.WPF.CustomUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="LightGray">
-            
+        <StackPanel Orientation="Vertical" Margin="0 30 0 0">
+            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" Background="Green" ImageSource="/Resources/Images/playbutton.png"   />
+        </StackPanel>
     </Grid>
 </UserControl>
