@@ -24,10 +24,10 @@ namespace sainim.Models
             var background = new MagickImage(MagickColors.White, imageData[0].Width, imageData[0].Height);
             imageData.RemoveAt(0);
 
-            StaticElements = imageData.Where(BaseLayer.IsStaticLayer).Select(l => new StaticLayer(l, background)).ToList();
+            StaticElements = imageData.Where(StaticLayer.IsStaticLayer).Select(l => new StaticLayer(l, background)).ToList();
 
-            Frames = imageData.Where(BaseLayer.IsAnimationLayer)
-                              .GroupBy(BaseLayer.GetFrameNumber)
+            Frames = imageData.Where(FrameSublayer.IsAnimationSublayer)
+                              .GroupBy(FrameSublayer.GetFrameNumber)
                               .OrderBy(k => k.Key)
                               .Select(g =>
                               {
