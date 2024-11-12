@@ -12,14 +12,14 @@
     </UserControl.Resources>
     
     <Grid Background="LightGray"  >
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="10" >
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" Padding="10" >
 
             <StackPanel Orientation="Vertical" >
                 <Viewbox MaxHeight="70">
                     <Label Content="{DynamicResource StaticElements}" />
                 </Viewbox>
 
-                <ListBox MinHeight="120" Background="DarkGray" ItemsSource="{Binding StaticElements}" Name="StaticElementListBox" >
+                <ListBox MinHeight="120" Background="DarkGray" ItemsSource="{Binding StaticElements}" Name="StaticElementListBox" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="BorderThickness" Value="0 2 0 2" />
@@ -35,7 +35,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Image MaxHeight="200" HorizontalAlignment="Left" Grid.RowSpan="2" Grid.Column="0" Source="{Binding Thumbnail}"  />
-                                <Label HorizontalAlignment="Left" FontWeight="Bold" Grid.Row="0" Grid.Column="1" Content="{Binding MainLabel}" FontSize="13" />
+                                <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Left" FontWeight="Bold" Grid.Row="0" Grid.Column="1" Text="{Binding MainLabel}" FontSize="13" Padding="4 0 8 0" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -45,7 +45,7 @@
                     <Label Content="{DynamicResource AnimationFrames}" />
                 </Viewbox>
 
-                <ListBox ItemsSource="{Binding Frames}" Background="DarkGray" Name="FrameListBox" MinHeight="120" >
+                <ListBox ItemsSource="{Binding Frames}" Background="DarkGray" Name="FrameListBox" MinHeight="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="BorderThickness" Value="0 2 0 2" />
@@ -71,8 +71,8 @@
                                 <ItemsControl BorderThickness="0"  Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Sublayers}" >
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding SpecialLayerLabel, Converter={StaticResource StringToResource}}" />
-                                         </DataTemplate>
+                                            <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="1" Text="{Binding SpecialLayerLabel, Converter={StaticResource StringToResource}}"  Padding="4 0 8 0" />
+                                        </DataTemplate>
                                     </ItemsControl.ItemTemplate>
 
                                 </ItemsControl>
