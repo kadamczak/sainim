@@ -9,7 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Images\playbutton.png" />
+    <None Remove="Resources\Images\play.png" />
+    <None Remove="Resources\Images\repeat.png" />
+    <None Remove="Resources\Images\star.png" />
+    <None Remove="Resources\Images\tobegin.png" />
+    <None Remove="Resources\Images\toend.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,9 +36,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Images\playbutton.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Resources\Images\play.png" />
+    <Resource Include="Resources\Images\repeat.png" />
+    <Resource Include="Resources\Images\star.png" />
+    <Resource Include="Resources\Images\tobegin.png" />
+    <Resource Include="Resources\Images\toend.png" />
   </ItemGroup>
 
 </Project>

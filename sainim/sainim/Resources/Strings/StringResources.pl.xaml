@@ -18,4 +18,6 @@
     <system:String x:Key="Reload">Załaduj obraz ponownie</system:String>
 
     <system:String x:Key="Unnamed">[Bez nazwy]</system:String>
+
+    <system:String x:Key="Show">Pokaż</system:String>
 </ResourceDictionary>

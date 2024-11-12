@@ -6,10 +6,45 @@
              xmlns:local="clr-namespace:sainim.WPF.Views"
              xmlns:customui="clr-namespace:sainim.WPF.CustomUI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="560" d:DesignWidth="80">
     <Grid Background="LightGray">
-        <StackPanel Orientation="Vertical" Margin="0 30 0 0">
-            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" Background="Green" ImageSource="/Resources/Images/playbutton.png"   />
+        <StackPanel Orientation="Vertical"  VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/star.png" Width="50" Height="50" />
+
+            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/repeat.png" Width="50" Height="50" Margin="0 5 0 0" />
+            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/tobegin.png" Width="50" Height="50" Margin="0 20 0 0" />
+            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/play.png" Width="56" Height="56"  Margin="0 5 0 0"  />
+            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/toend.png" Width="50" Height="50" Margin="0 5 0 0" />
+
+            <Label Content="FPS" HorizontalAlignment="Center" FontSize="20" Margin="0 20 0 0" />
+            <TextBox Height="30" />
+
+            <Label Content="{DynamicResource Show}" HorizontalAlignment="Center" FontSize="20" Margin="0 20 0 0" />
+
+            <ScrollViewer VerticalScrollBarVisibility="Visible">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="aa" FontSize="15" />
+                    <CheckBox Content="aa" FontSize="15" />
+                    <CheckBox Content="aa" FontSize="15" />
+                    <CheckBox Content="aa" FontSize="15" />
+                    <CheckBox Content="aa" FontSize="15" />
+                    <CheckBox Content="aa" FontSize="15" />
+                </StackPanel>
+            </ScrollViewer>
+
+            <!--<ItemsControl ItemsSource="{Binding SublayerTypes}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" Margin="0" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding}"  />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>-->
         </StackPanel>
     </Grid>
 </UserControl>
