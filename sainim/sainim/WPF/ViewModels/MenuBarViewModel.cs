@@ -6,9 +6,9 @@ using System.Windows.Input;
 
 namespace sainim.WPF.ViewModels
 {
-    public class MenuBarViewModel(OriginalImageStore originalImageStore) : ViewModelBase
+    public class MenuBarViewModel(OriginalImageStore originalImageStore, AnimationStore animationStore) : ViewModelBase
     {
-        public ICommand ImportPsdImage { get; } = new ImportPsdImageCommand(originalImageStore);
+        public ICommand ImportPsdImage { get; } = new ImportPsdImageCommand(originalImageStore, animationStore);
         public ICommand ReloadPsdImage { get; } = new ReloadPsdImageCommand(originalImageStore);
 
         public ICommand ChangeLanguageToEnglish { get; } = new LoadStringResourcesCommand("en-US");

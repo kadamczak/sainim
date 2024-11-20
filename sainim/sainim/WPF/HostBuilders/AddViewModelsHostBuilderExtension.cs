@@ -15,7 +15,6 @@ namespace sainim.WPF.HostBuilders
                 services.AddSingleton<TimelineBarViewModel>();
                 services.AddSingleton<PlayBarViewModel>();
                 services.AddSingleton<MenuBarViewModel>();
-                services.AddSingleton<AnimationTimelineViewModel>();
 
                 services.AddSingleton<MainViewModel>();
             });

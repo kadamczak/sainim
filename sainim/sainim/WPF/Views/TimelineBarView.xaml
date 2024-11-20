@@ -8,7 +8,55 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="Gray">
         <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
-            <customui:AnimationTimelineControl Padding="30 10 0 0" DataContext="{Binding AnimationTimelineViewModel}" />
+            <Grid Margin="30 10 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <ItemsControl ItemsSource="{Binding TickLabels}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding}" FontSize="12" Foreground="White" Width="80.25" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                            <!-- Frame Slider -->
+                            <Slider x:Name="FrameSlider" 
+                HorizontalAlignment="Left"
+                Width="{Binding Width, Mode=OneWay}"
+                Minimum="1" 
+                Maximum="{Binding MaxFrameCount}" 
+                Value="{Binding AnimationStore.CurrentFrameIndex, Mode=TwoWay}" 
+                TickFrequency="1" 
+                IsSnapToTickEnabled="True" 
+                TickPlacement="TopLeft"
+                Grid.Row="1" Margin="3 0 0 0" Padding="0" />
+
+
+
+                <!-- Thumbnails -->
+                <ListBox VerticalAlignment="Top" ItemsSource="{Binding FrameThumbnails}" Grid.Row="2" BorderThickness="0" Margin="0" Padding="7 0 0 0">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding}" Width="70.27" Margin="0" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </UserControl>

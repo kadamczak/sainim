@@ -10,7 +10,8 @@ namespace sainim.WPF.ViewModels
                          TimelineBarViewModel timelineBarViewModel,
                          PlayBarViewModel playBarViewModel,
                          MenuBarViewModel menuBarViewModel,
-                         OriginalImageStore originalImageStore) : ViewModelBase
+                         OriginalImageStore originalImageStore,
+                         AnimationStore animationStore) : ViewModelBase
     {
         public ContentBarViewModel ContentBarViewModel { get; } = contentBarViewModel;
         public AnimationPreviewViewModel AnimationPreviewViewModel { get; } = animationPreviewViewModel;
@@ -18,6 +19,6 @@ namespace sainim.WPF.ViewModels
         public PlayBarViewModel PlayBarViewModel { get; } = playBarViewModel;
         public MenuBarViewModel MenuBarViewModel { get; } = menuBarViewModel;
 
-        public ICommand ImportPsdImage { get; } = new ImportPsdImageCommand(originalImageStore);
+        public ICommand ImportPsdImage { get; } = new ImportPsdImageCommand(originalImageStore, animationStore);
     }
 }

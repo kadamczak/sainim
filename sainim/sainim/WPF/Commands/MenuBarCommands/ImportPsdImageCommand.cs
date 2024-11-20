@@ -6,9 +6,10 @@ using sainim.WPF.Stores;
 
 namespace sainim.WPF.Commands.MenuBarCommands
 {
-    public class ImportPsdImageCommand(OriginalImageStore originalImageStore) : CommandBase
+    public class ImportPsdImageCommand(OriginalImageStore originalImageStore, AnimationStore animationStore) : CommandBase
     {
         private readonly OriginalImageStore _originalImageStore = originalImageStore;
+        private readonly AnimationStore _animationStore = animationStore;
 
         public override void Execute(object? parameter)
         {
@@ -22,6 +23,7 @@ namespace sainim.WPF.Commands.MenuBarCommands
             {
                 OriginalImage newImage = new OriginalImage(openFileDialog.FileName);
                 _originalImageStore.LoadNewImage(newImage);
+                _animationStore.LoadDefaultAnimation();
             }
         }
     }
