@@ -37,12 +37,12 @@ namespace sainim.WPF.ViewModels
 
         private void OnFramesModified()
         {
-            FrameThumbnails.Clear();
+            //FrameThumbnails.Clear();
             
-            foreach(var frame in AnimationStore.Frames)
-            {
-                FrameThumbnails.Add(frame.Thumbnail);
-            }
+            //foreach(var frame in AnimationStore.Frames)
+            //{
+            //    FrameThumbnails.Add(frame.Thumbnail);
+            //}
         }
     }
 }

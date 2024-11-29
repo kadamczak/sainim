@@ -10,7 +10,7 @@ namespace sainim.WPF.ViewModels
         private readonly OriginalImageStore _originalImageStore;
         private OriginalImage CurrentImage => _originalImageStore.CurrentImage!;
 
-        public ObservableCollection<BaseLayer> StaticElements { get; set; } = [];
+        public ObservableCollection<StaticLayer> StaticElements { get; set; } = [];
         public ObservableCollection<Frame> Frames { get; set; } = [];
 
 

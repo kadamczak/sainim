@@ -8,7 +8,7 @@
              d:DesignHeight="783" d:DesignWidth="384" >
 
     <UserControl.Resources>
-        <converters:StringToResourceConverter x:Key="StringToResource" />
+        <converters:EmptyOrNullStringConverter x:Key="EmptyOrNullStringConverter" />
     </UserControl.Resources>
     
     <Grid Background="LightGray"  >
@@ -71,15 +71,14 @@
                                 <ItemsControl BorderThickness="0"  Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Sublayers}" >
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="1" Text="{Binding SpecialLabel, Converter={StaticResource StringToResource}}"  Padding="4 0 8 0" />
+                                            <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="1" Text="{Binding SpecialLabel, Converter={StaticResource EmptyOrNullStringConverter}, ConverterParameter=Unnamed}"  Padding="4 0 8 0" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
-
                                 </ItemsControl>
+
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-
                 </ListBox>
                 
             </StackPanel>

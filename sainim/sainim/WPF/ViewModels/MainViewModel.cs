@@ -1,7 +1,5 @@
 ﻿using sainim.WPF.Bases;
-using sainim.WPF.Commands.MenuBarCommands;
 using sainim.WPF.Stores;
-using System.Windows.Input;
 
 namespace sainim.WPF.ViewModels
 {
@@ -9,9 +7,7 @@ namespace sainim.WPF.ViewModels
                          AnimationPreviewViewModel animationPreviewViewModel,
                          TimelineBarViewModel timelineBarViewModel,
                          PlayBarViewModel playBarViewModel,
-                         MenuBarViewModel menuBarViewModel,
-                         OriginalImageStore originalImageStore,
-                         AnimationStore animationStore) : ViewModelBase
+                         MenuBarViewModel menuBarViewModel) : ViewModelBase
     {
         public ContentBarViewModel ContentBarViewModel { get; } = contentBarViewModel;
         public AnimationPreviewViewModel AnimationPreviewViewModel { get; } = animationPreviewViewModel;
