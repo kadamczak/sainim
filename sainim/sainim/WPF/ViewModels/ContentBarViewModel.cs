@@ -1,4 +1,5 @@
 ﻿using sainim.Models;
+using sainim.Models.Extensions;
 using sainim.WPF.Bases;
 using sainim.WPF.Stores;
 using System.Collections.ObjectModel;
@@ -13,7 +14,6 @@ namespace sainim.WPF.ViewModels
         public ObservableCollection<StaticLayer> StaticElements { get; set; } = [];
         public ObservableCollection<Frame> Frames { get; set; } = [];
 
-
         public ContentBarViewModel(OriginalImageStore originalImageStore)
         {
             _originalImageStore = originalImageStore;
@@ -26,11 +26,8 @@ namespace sainim.WPF.ViewModels
             StaticElements.Clear();
             Frames.Clear();
 
-            foreach (var element in CurrentImage.StaticElements)
-                StaticElements.Add(element);
-
-            foreach (var element in CurrentImage.Frames)
-                Frames.Add(element);
+            StaticElements.AddRange(CurrentImage.StaticElements);
+            Frames.AddRange(CurrentImage.Frames);
         }
     }
 }

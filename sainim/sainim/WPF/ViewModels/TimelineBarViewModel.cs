@@ -1,4 +1,5 @@
-﻿using sainim.WPF.Bases;
+﻿using sainim.Models.Extensions;
+using sainim.WPF.Bases;
 using sainim.WPF.Stores;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
@@ -29,10 +30,7 @@ namespace sainim.WPF.ViewModels
         private void CreateTickLabels()
         {
             var tickLabels = Enumerable.Range(1, MaxFrameCount).Select(n => n.ToString());
-            foreach (var label in tickLabels)
-            {
-                TickLabels.Add(label);
-            }
+            TickLabels.AddRange(tickLabels);
         }
 
         private void OnFramesModified()
