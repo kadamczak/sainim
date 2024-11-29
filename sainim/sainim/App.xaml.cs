@@ -21,6 +21,8 @@ namespace sainim
                 })
                 .AddViewModels()
                 .AddStores()
+                .AddServices()
+                .AddHelpers()
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton<MainWindow>((services) => new MainWindow()

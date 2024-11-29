@@ -4,7 +4,9 @@ namespace sainim.Models
 {
     public class FrameSublayer(IMagickImage<ushort> fullLayerData) : BaseLayer(fullLayerData)
     {
-        public string SpecialLayerLabel { get; } = GetSpecialLabel(fullLayerData);
+        public string SpecialLabel { get; } = GetSpecialLabel(fullLayerData);
+
+        protected const string Separator = "_";
 
         public static bool IsAnimationSublayer(IMagickImage layer) => layer.Label!.Contains(Separator);
         public static int GetFrameNumber(IMagickImage layer) => Int32.Parse(layer.Label!.Split(Separator).ElementAt(0));

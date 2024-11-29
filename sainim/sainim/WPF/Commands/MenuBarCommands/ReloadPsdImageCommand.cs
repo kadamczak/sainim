@@ -25,8 +25,8 @@ namespace sainim.WPF.Commands.MenuBarCommands
             if (currentVersionTime <= latestLoadedVersionTime)
                 return;
 
-            OriginalImage newImage = new OriginalImage(filePath);
-            _originalImageStore.ReloadImage(newImage);
+            //OriginalImage newImage = new OriginalImage(filePath);
+            //_originalImageStore.ReloadImage(newImage);
         }
 
         public override bool CanExecute(object? parameter) => _originalImageStore.CurrentImage is not null && base.CanExecute(parameter); 

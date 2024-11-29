@@ -1,15 +1,21 @@
-﻿using Microsoft.Win32;
+﻿using ImageMagick;
+using Microsoft.Win32;
 using sainim.Models;
 using sainim.Models.Extensions;
 using sainim.WPF.Bases;
+using sainim.WPF.Helpers;
 using sainim.WPF.Stores;
+using System.IO;
 
 namespace sainim.WPF.Commands.MenuBarCommands
 {
-    public class ImportPsdImageCommand(OriginalImageStore originalImageStore, AnimationStore animationStore) : CommandBase
+    public class ImportPsdImageCommand(OriginalImageFactory originalImageFactory,
+                                       OriginalImageStore originalImageStore,
+                                       MessageBoxHelpers messageBoxHelpers) : CommandBase
     {
+        private readonly OriginalImageFactory _originalImageFactory = originalImageFactory;
         private readonly OriginalImageStore _originalImageStore = originalImageStore;
-        private readonly AnimationStore _animationStore = animationStore;
+        private readonly MessageBoxHelpers _messageBoxHelpers = messageBoxHelpers;
 
         public override void Execute(object? parameter)
         {
@@ -21,9 +27,27 @@ namespace sainim.WPF.Commands.MenuBarCommands
 
             if (openFileDialog.ShowDialog() == true)
             {
-                OriginalImage newImage = new OriginalImage(openFileDialog.FileName);
-                _originalImageStore.LoadNewImage(newImage);
-                _animationStore.LoadDefaultAnimation();
+                try
+                {
+                    OriginalImage newImage = _originalImageFactory.Create(openFileDialog.FileName);
+                    _originalImageStore.LoadNewImage(newImage);
+                }
+                catch(IOException e)
+                {
+                    _messageBoxHelpers.ShowGenericErrorMessageBox("IOError".Resource(), e.Message);
+                }
+                catch (MagickException e)
+                {
+                    _messageBoxHelpers.ShowGenericErrorMessageBox("ImageParsingError".Resource(), e.Message);
+                }
+                catch (Exception e)
+                {
+                    _messageBoxHelpers.ShowGenericErrorMessageBox("UnknownErrorOperationUnsuccessful".Resource(), e.Message);
+                }
+                finally
+                {
+                    _originalImageFactory.DisposeImageData();
+                }
             }
         }
     }

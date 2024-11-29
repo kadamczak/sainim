@@ -1,14 +1,18 @@
-﻿using sainim.WPF.Bases;
+﻿using sainim.Models;
+using sainim.WPF.Bases;
 using sainim.WPF.Commands.MenuBarCommands;
 using sainim.WPF.Commands.SettingsCommands;
+using sainim.WPF.Helpers;
 using sainim.WPF.Stores;
 using System.Windows.Input;
 
 namespace sainim.WPF.ViewModels
 {
-    public class MenuBarViewModel(OriginalImageStore originalImageStore, AnimationStore animationStore) : ViewModelBase
+    public class MenuBarViewModel(OriginalImageFactory originalImageFactory,
+                                  OriginalImageStore originalImageStore,
+                                  MessageBoxHelpers messageBoxHelpers) : ViewModelBase
     {
-        public ICommand ImportPsdImage { get; } = new ImportPsdImageCommand(originalImageStore, animationStore);
+        public ICommand ImportPsdImage { get; } = new ImportPsdImageCommand(originalImageFactory, originalImageStore, messageBoxHelpers);
         public ICommand ReloadPsdImage { get; } = new ReloadPsdImageCommand(originalImageStore);
 
         public ICommand ChangeLanguageToEnglish { get; } = new LoadStringResourcesCommand("en-US");

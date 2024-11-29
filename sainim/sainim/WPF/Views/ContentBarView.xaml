@@ -35,7 +35,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Image MaxHeight="200" HorizontalAlignment="Left" Grid.RowSpan="2" Grid.Column="0" Source="{Binding Thumbnail}"  />
-                                <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Left" FontWeight="Bold" Grid.Row="0" Grid.Column="1" Text="{Binding MainLabel}" FontSize="13" Padding="4 0 8 0" />
+                                <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Left" FontWeight="Bold" Grid.Row="0" Grid.Column="1" Text="{Binding Label}" FontSize="13" Padding="4 0 8 0" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -71,7 +71,7 @@
                                 <ItemsControl BorderThickness="0"  Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Sublayers}" >
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="1" Text="{Binding SpecialLayerLabel, Converter={StaticResource StringToResource}}"  Padding="4 0 8 0" />
+                                            <TextBlock TextTrimming="WordEllipsis" HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="1" Text="{Binding SpecialLabel, Converter={StaticResource StringToResource}}"  Padding="4 0 8 0" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
 

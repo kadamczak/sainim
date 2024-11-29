@@ -17,6 +17,6 @@ namespace sainim.Models
             Thumbnail = this.MergeLayers().CreateThumbnail(background, maxThumbnailDimension);
         }
 
-        public IMagickImage<ushort> MergeLayers() => new MagickImageCollection(Sublayers.Select(l => l.FullLayerData)).Merge();
+        public IMagickImage<ushort> MergeLayers() => new MagickImageCollection(Sublayers.Select(l => l.Data)).Merge();
     }
 }
