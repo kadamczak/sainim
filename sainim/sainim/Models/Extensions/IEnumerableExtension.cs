@@ -8,7 +8,7 @@
         /// <typeparam name="T">Type of objects inside IEnumerable <paramref name="self"/>.</typeparam>
         /// <param name="self">Collection.</param>
         /// <returns>Collections items with indexes.</returns>
-        public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> self)
-         => self.Select((item, index) => (item, index));
+        public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> self, int indexOffset = 0)
+         => self.Select((item, index) => (item, index + indexOffset));
     }
 }

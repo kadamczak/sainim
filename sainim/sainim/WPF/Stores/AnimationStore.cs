@@ -8,20 +8,22 @@ namespace sainim.WPF.Stores
         private readonly OriginalImageStore _originalImageStore;
 
         // Frame numbering
-        public int MaxFrameCount { get; } = 255;
-        public int CurrentFrameIndex { get; set; } = 0;
+        public int MinFrameIndex { get; } = 1;
+        public int MaxFrameIndex { get; } = 255;
+        public int AvailableFrameSpaces => MaxFrameIndex - MinFrameIndex + 1;
+        public int CurrentFrameIndex { get; set; } = 1;
 
         // Play settings
-        public int FrameRate { get; set; } = 24;
+        public int FrameRate { get; set; } = 12;
         public bool Repeating { get; set; } = false;
-        public List<string> ActiveAnimationLayerTypes { get; } = [];
+        public List<string> ActiveSpecialLayerTypes { get; } = [];
 
         // References to data
-        public SortedDictionary<int, Frame> SortedFrames = [];
+        public SortedDictionary<int, Frame> FrameSequence = [];
 
         // Events
-        public event Action FramesModified;
-        public void OnFramesModified() => FramesModified?.Invoke();
+        public event Action FrameSequenceModified;
+        public void OnFrameSequenceModified() => FrameSequenceModified?.Invoke();
 
         public AnimationStore(OriginalImageStore originalImageStore)
         {
@@ -31,14 +33,12 @@ namespace sainim.WPF.Stores
 
         public void LoadDefaultAnimation()
         {
-            SortedFrames.Clear();
+            FrameSequence.Clear();
 
-            foreach(var (frame, i) in _originalImageStore.CurrentImage!.Frames.WithIndex())
-            {
-                SortedFrames.Add(i, frame);
-            }
+            foreach(var (frame, i) in _originalImageStore.CurrentImage!.Frames.WithIndex(indexOffset: MinFrameIndex))
+                FrameSequence.Add(i, frame);
 
-            OnFramesModified();
+            OnFrameSequenceModified();
         }
     }
 }

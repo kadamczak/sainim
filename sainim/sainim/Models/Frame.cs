@@ -18,5 +18,9 @@ namespace sainim.Models
         }
 
         public IMagickImage<ushort> MergeLayers() => new MagickImageCollection(Sublayers.Select(l => l.Data)).Merge();
+
+        // merge only layers with special labels that belong to a specified subset
+        public IMagickImage<ushort> MergeLayers(params string[] specialLabels)
+            => new MagickImageCollection(Sublayers.Where(l => specialLabels.Contains(l.SpecialLabel)).Select(l => l.Data)).Merge();
     }
 }
