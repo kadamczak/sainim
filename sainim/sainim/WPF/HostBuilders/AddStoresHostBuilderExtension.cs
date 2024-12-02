@@ -12,6 +12,7 @@ namespace sainim.WPF.HostBuilders
             {
                 services.AddSingleton<OriginalImageStore>();
                 services.AddSingleton<AnimationStore>();
+                services.AddSingleton<RenderedImagesStore>();
             });
 
             return hostBuilder;

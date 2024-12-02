@@ -22,6 +22,7 @@
 
     <!--Play Bar-->
     <system:String x:Key="Show">Pokaż</system:String>
+    <system:String x:Key="Static">Statyczne</system:String>
 
     <!--Errors-->
     <system:String x:Key="Error">Błąd</system:String>

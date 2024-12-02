@@ -7,6 +7,7 @@ namespace sainim.WPF.ViewModels
     public class AnimationPreviewViewModel : ViewModelBase
     {
         private readonly AnimationStore _animationStore;
+        private readonly RenderedImagesStore _renderedImagesStore;
 
         private BitmapSource? _previewImage = null;
         public BitmapSource? PreviewImage
@@ -19,9 +20,11 @@ namespace sainim.WPF.ViewModels
             }
         }
 
-        public AnimationPreviewViewModel(AnimationStore animationStore)
+        public AnimationPreviewViewModel(AnimationStore animationStore, RenderedImagesStore renderedImagesStore)
         {
             _animationStore = animationStore;
+            _renderedImagesStore = renderedImagesStore;
+
             _animationStore.CurrentFrameIndexChanged += ChangePreview;
         }
 

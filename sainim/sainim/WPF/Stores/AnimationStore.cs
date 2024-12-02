@@ -67,10 +67,8 @@ namespace sainim.WPF.Stores
         {
             ResetAnimationSequenceToEmptyInteractableState();
 
-            for (int i = 0; i <= MaxFrameIndex; i++)
-            {
-                AnimationSequence[i] = _originalImageStore.CurrentImage!.Frames[i];
-            }
+            foreach (var (frame, i) in _originalImageStore.CurrentImage!.Frames.WithIndex())
+                AnimationSequence[i] = frame;
 
             OnFrameSequenceModified();
         }

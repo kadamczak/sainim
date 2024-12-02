@@ -4,9 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:sainim.WPF.Views"
-             xmlns:customui="clr-namespace:sainim.WPF.CustomUI" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:customui="clr-namespace:sainim.WPF.CustomUI" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:converters="clr-namespace:sainim.WPF.CustomUI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="560" d:DesignWidth="80">
+    <UserControl.Resources>
+        <converters:EmptyOrNullStringConverter x:Key="EmptyOrNullStringConverter" />
+    </UserControl.Resources>
+
     <Grid Background="LightGray" Margin="0 23 0 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="110"/>
@@ -37,25 +41,30 @@
 
 
                 <Label Content="{DynamicResource Show}" HorizontalAlignment="Center" FontSize="18" />
-                <StackPanel Orientation="Vertical" >
-                    <CheckBox Content="aa" FontSize="15" />
-                    <CheckBox Content="aa" FontSize="15" />
-                    <CheckBox Content="aa" FontSize="15" />
-                    <CheckBox Content="aa" FontSize="15" />
-                </StackPanel>
 
-                <!--<ItemsControl ItemsSource="{Binding SublayerTypes}">
+                <ItemsControl ItemsSource="{Binding EnabledLayerTypes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical" Margin="0" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+                    
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Content="{Binding}"  />
-                    </DataTemplate>
+
+                            <Grid Grid.Row="2" Grid.ColumnSpan="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Grid.Column="0" IsEnabled="{Binding IsSelected}" Padding="0" VerticalAlignment="Center" ToolTipService.ShowOnDisabled="True"/>
+                                <TextBlock Grid.Column="1" Foreground="Black" FontSize="15" Name="txtChkSelectedCat" Text="{Binding Name, Converter={StaticResource EmptyOrNullStringConverter}, ConverterParameter=Unnamed}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"   />
+                            </Grid>
+                        </DataTemplate>
                 </ItemsControl.ItemTemplate>
-            </ItemsControl>-->
+                    
+                </ItemsControl>
+                
             </StackPanel>
         </ScrollViewer>
     </Grid>
