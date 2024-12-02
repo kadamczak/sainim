@@ -1,5 +1,6 @@
 ﻿using sainim.Models;
 using sainim.Models.Extensions;
+using System.Collections.ObjectModel;
 
 namespace sainim.WPF.Stores
 {
@@ -8,10 +9,9 @@ namespace sainim.WPF.Stores
         private readonly OriginalImageStore _originalImageStore;
 
         // Frame numbering
-        public int MinFrameIndex { get; } = 1;
         public int MaxFrameIndex { get; } = 255;
-        public int AvailableFrameSpaces => MaxFrameIndex - MinFrameIndex + 1;
-        public int CurrentFrameIndex { get; set; } = 1;
+        public int FrameSpaceCount => MaxFrameIndex + 1;
+        public int CurrentFrameIndex { get; set; } = 0;
 
         // Play settings
         public int FrameRate { get; set; } = 12;
@@ -19,7 +19,12 @@ namespace sainim.WPF.Stores
         public List<string> ActiveSpecialLayerTypes { get; } = [];
 
         // References to data
-        public SortedDictionary<int, Frame> FrameSequence = [];
+        public ObservableCollection<Frame?> AnimationSequence { get; } = [];  // When an image is NOT loaded, this collection has 0 elements and is thus not interactable.
+                                                                              // When an image is loaded, empty spaces in the animation sequence
+                                                                              // are represented by null and are interactable.
+
+        // Saved to reduce repetition
+        public List<Frame?> EmptyInteractableAnimationSequence { get; } = [];
 
         // Events
         public event Action FrameSequenceModified;
@@ -28,15 +33,23 @@ namespace sainim.WPF.Stores
         public AnimationStore(OriginalImageStore originalImageStore)
         {
             _originalImageStore = originalImageStore;
-            _originalImageStore.NewImageLoaded += LoadDefaultAnimation;
+            _originalImageStore.NewImageLoaded += LoadDefaultAnimationSequence;
+
+            EmptyInteractableAnimationSequence.AddRange(Enumerable.Repeat<Frame?>(null, FrameSpaceCount));
         }
 
-        public void LoadDefaultAnimation()
+        private void ResetAnimationSequenceToEmptyInteractableState()
         {
-            FrameSequence.Clear();
+            AnimationSequence.Clear();
+            AnimationSequence.AddRange(EmptyInteractableAnimationSequence);
+        }
 
-            foreach(var (frame, i) in _originalImageStore.CurrentImage!.Frames.WithIndex(indexOffset: MinFrameIndex))
-                FrameSequence.Add(i, frame);
+        public void LoadDefaultAnimationSequence()
+        {
+            ResetAnimationSequenceToEmptyInteractableState();
+
+            foreach (var (frame, i) in _originalImageStore.CurrentImage!.Frames.WithIndex())
+                AnimationSequence[i] = frame;
 
             OnFrameSequenceModified();
         }
