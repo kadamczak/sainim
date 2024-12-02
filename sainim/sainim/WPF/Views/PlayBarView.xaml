@@ -42,7 +42,7 @@
 
                 <Label Content="{DynamicResource Show}" HorizontalAlignment="Center" FontSize="18" />
 
-                <ItemsControl ItemsSource="{Binding EnabledLayerTypes}">
+                <ItemsControl ItemsSource="{Binding AnimationStore.SelectableLayerTypes}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical" Margin="0" />

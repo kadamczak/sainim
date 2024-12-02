@@ -1,5 +1,6 @@
 ﻿using sainim.Models;
 using sainim.Models.Extensions;
+using sainim.WPF.ViewModels.Elements;
 using System.Collections.ObjectModel;
 
 namespace sainim.WPF.Stores
@@ -29,7 +30,7 @@ namespace sainim.WPF.Stores
         // Play settings
         public int FrameRate { get; set; } = 12;
         public bool Repeating { get; set; } = false;
-        public List<string> ActiveSpecialLayerTypes { get; } = [];
+        public ObservableCollection<SelectableOption> SelectableLayerTypes { get; } = [];
 
         // References to data
         public ObservableCollection<Frame?> AnimationSequence { get; } = [];  // When an image is NOT loaded, this collection has 0 elements and is thus not interactable.

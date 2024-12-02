@@ -4,7 +4,6 @@ using sainim.WPF.Bases;
 using sainim.WPF.Commands.PlayBarCommands;
 using sainim.WPF.Stores;
 using sainim.WPF.ViewModels.Elements;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace sainim.WPF.ViewModels
@@ -12,22 +11,25 @@ namespace sainim.WPF.ViewModels
     public class PlayBarViewModel : ViewModelBase
     {
         private readonly OriginalImageStore _originalImageStore;
-        public ICommand PlayAnimation { get; } = new PlayAnimationCommand();
-        public ObservableCollection<SelectableOption> EnabledLayerTypes { get; } = [];
+        public AnimationStore AnimationStore { get; }
 
-        public PlayBarViewModel(OriginalImageStore originalImageStore)
+        public ICommand PlayAnimation { get; } = new PlayAnimationCommand();
+
+        public PlayBarViewModel(OriginalImageStore originalImageStore, AnimationStore animationStore)
         {
             _originalImageStore = originalImageStore;
+            AnimationStore = animationStore;
+
             _originalImageStore.NewImageLoaded += UpdateLayerTypeCollection;
         }
 
         private void UpdateLayerTypeCollection()
         {
-            EnabledLayerTypes.Clear();
+            AnimationStore.SelectableLayerTypes.Clear();
             List<string> layerNames = ExtractLayerNames();
 
             foreach (var layerName in layerNames)
-                EnabledLayerTypes.Add(new SelectableOption(layerName, true));
+                AnimationStore.SelectableLayerTypes.Add(new SelectableOption(layerName, true));
         }
 
         private List<string> ExtractLayerNames()
