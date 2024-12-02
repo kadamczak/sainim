@@ -19,7 +19,7 @@ namespace sainim.WPF.Stores
             set
             {
                 if (value < 0 || value > MaxFrameIndex)
-                    throw new ArgumentException("Attempted to set CurrentFrameIndex outside possible range.");
+                    throw new ArgumentException($"Attempted to set {nameof(CurrentFrameIndex)} outside possible range of 0 to {nameof(MaxFrameIndex)}.");
 
                 _currentFrameIndex = value;
                 OnCurrentFrameIndexChanged();
@@ -67,8 +67,10 @@ namespace sainim.WPF.Stores
         {
             ResetAnimationSequenceToEmptyInteractableState();
 
-            foreach (var (frame, i) in _originalImageStore.CurrentImage!.Frames.WithIndex())
-                AnimationSequence[i] = frame;
+            for (int i = 0; i <= MaxFrameIndex; i++)
+            {
+                AnimationSequence[i] = _originalImageStore.CurrentImage!.Frames[i];
+            }
 
             OnFrameSequenceModified();
         }

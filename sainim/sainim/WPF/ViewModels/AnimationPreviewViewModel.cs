@@ -8,14 +8,14 @@ namespace sainim.WPF.ViewModels
     {
         private readonly AnimationStore _animationStore;
 
-        private BitmapSource? _previewFrame = null;
-        public BitmapSource? PreviewFrame
+        private BitmapSource? _previewImage = null;
+        public BitmapSource? PreviewImage
         {
-            get => _previewFrame;
+            get => _previewImage;
             set
             {
-                _previewFrame = value;
-                OnPropertyChanged(nameof(PreviewFrame));
+                _previewImage = value;
+                OnPropertyChanged(nameof(PreviewImage));
             }
         }
 
@@ -31,11 +31,11 @@ namespace sainim.WPF.ViewModels
 
             if (currentFrame is null)
             {
-                PreviewFrame = null;
+                PreviewImage = null;
                 return;
             }
 
-            PreviewFrame = currentFrame.Thumbnail;
+            PreviewImage = currentFrame.Thumbnail;
         }
     }
 }
