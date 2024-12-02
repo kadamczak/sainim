@@ -23,13 +23,12 @@ namespace sainim.WPF.ViewModels
         {
             _originalImageStore = originalImageStore;
             AnimationStore = animationStore;
-
             CreateTickLabels();
         }
 
         private void CreateTickLabels()
         {
-            var tickLabels = Enumerable.Range(0, AnimationStore.FrameSpaceCount + 1).Select(n => n.ToString());
+            var tickLabels = Enumerable.Range(0, AnimationStore.FrameSpaceCount).Select(n => n.ToString());
             TickLabels.AddRange(tickLabels);
         }
 

@@ -29,7 +29,7 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Label Content="{Binding}" FontSize="12" Foreground="White" Width="80.25" />
+                            <Label Content="{Binding}" FontSize="12" Foreground="White" Width="80.55" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -57,7 +57,7 @@
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Path=Thumbnail }" Width="70.27" Margin="0" />
+                            <Image Source="{Binding Path=Thumbnail }" Width="70.58" Margin="0" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
