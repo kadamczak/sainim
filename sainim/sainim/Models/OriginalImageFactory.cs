@@ -5,13 +5,11 @@ namespace sainim.Models
 {
     public class OriginalImageFactory
     {
-        private MagickImageCollection? _imageData = null;
-
         public OriginalImage Create(string path)
         {
             DateTime lastModified = File.GetLastWriteTime(path);
 
-            _imageData = new MagickImageCollection(path);
+            var _imageData = new MagickImageCollection(path);
 
             // create transparent image with the width and height of the whole original image
             // to center the thumbnails of the rest of the layers which might be offseted
@@ -29,13 +27,7 @@ namespace sainim.Models
                                   return new Frame(g.Key, frameSublayers, background);
                               }).ToList();
 
-            return new OriginalImage(path, lastModified, staticElements, frames);
-        }
-
-        public void DisposeImageData()
-        {
-            _imageData?.Dispose();
-            _imageData = null;
+            return new OriginalImage(path, lastModified, background, staticElements, frames);
         }
     }
 }

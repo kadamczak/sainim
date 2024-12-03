@@ -9,6 +9,7 @@ namespace sainim.Models
         public int Index { get; }
         public BitmapSource Thumbnail { get; }
         public List<FrameSublayer> Sublayers { get; }
+        public Dictionary<List<string>, BitmapSource> RenderedImages { get; } = [];
 
         public Frame(int index, List<FrameSublayer> sublayers, MagickImage background, uint maxThumbnailDimension = 250)
         {
@@ -17,10 +18,19 @@ namespace sainim.Models
             Thumbnail = this.MergeLayers().CreateThumbnail(maxThumbnailDimension, background);
         }
 
-        public IMagickImage<ushort> MergeLayers() => new MagickImageCollection(Sublayers.Select(l => l.Data)).Merge();
+        public IMagickImage<ushort> MergeLayers(IMagickImage<ushort>? background = null)
+        {
+            var mergedSublayers = new MagickImageCollection(Sublayers.Select(l => l.Data)).Merge();
+            return mergedSublayers.MergeIfNotNull(background);
+        }
 
         // merge only layers with special labels that belong to a specified subset
-        public IMagickImage<ushort> MergeLayers(params string[] specialLabels)
-            => new MagickImageCollection(Sublayers.Where(l => specialLabels.Contains(l.SpecialLabel)).Select(l => l.Data)).Merge();
+        public IMagickImage<ushort> MergeLayers(IMagickImage<ushort>? background = null, params string[] specialLabels)
+        {
+            var mergedSublayers = new MagickImageCollection(Sublayers.Where(l => specialLabels.Contains(l.SpecialLabel)).Select(l => l.Data)).Merge();
+            return mergedSublayers.MergeIfNotNull(background);
+        }
+
+        public BitmapSource? GetRenderedImage(List<string> enabledLayerTypes) => RenderedImages.SingleOrDefault(i => i.Key.SequenceEqual(enabledLayerTypes)).Value;
     }
 }

@@ -44,10 +44,6 @@ namespace sainim.WPF.Commands.MenuBarCommands
                 {
                     _messageBoxHelpers.ShowGenericErrorMessageBox("UnknownErrorOperationUnsuccessful".Resource(), e.Message);
                 }
-                finally
-                {
-                    _originalImageFactory.DisposeImageData();
-                }
             }
         }
     }

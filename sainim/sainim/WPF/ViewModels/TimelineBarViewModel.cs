@@ -31,7 +31,5 @@ namespace sainim.WPF.ViewModels
             var tickLabels = Enumerable.Range(0, AnimationStore.FrameSpaceCount).Select(n => n.ToString());
             TickLabels.AddRange(tickLabels);
         }
-
-
     }
 }

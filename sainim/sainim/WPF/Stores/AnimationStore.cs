@@ -31,6 +31,9 @@ namespace sainim.WPF.Stores
         public int FrameRate { get; set; } = 12;
         public bool Repeating { get; set; } = false;
         public ObservableCollection<SelectableOption> SelectableLayerTypes { get; } = [];
+        public List<string> GetSelectedLayerTypes() => SelectableLayerTypes.Where(layerType => layerType.IsSelected)
+                                                                         .Select(layerType => layerType.Name)
+                                                                         .ToList();
 
         // References to data
         public ObservableCollection<Frame?> AnimationSequence { get; } = [];  // When an image is NOT loaded, this collection has 0 elements and is thus not interactable.
@@ -72,6 +75,7 @@ namespace sainim.WPF.Stores
                 AnimationSequence[i] = frame;
 
             OnFrameSequenceModified();
+            CurrentFrameIndex = 0;
         }
     }
 }

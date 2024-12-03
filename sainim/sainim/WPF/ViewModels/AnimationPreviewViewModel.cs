@@ -1,4 +1,6 @@
-﻿using sainim.WPF.Bases;
+﻿using ImageMagick;
+using sainim.Models;
+using sainim.WPF.Bases;
 using sainim.WPF.Stores;
 using System.Windows.Media.Imaging;
 
@@ -6,8 +8,8 @@ namespace sainim.WPF.ViewModels
 {
     public class AnimationPreviewViewModel : ViewModelBase
     {
+        private readonly OriginalImageStore _originalImageStore;
         private readonly AnimationStore _animationStore;
-        private readonly RenderedImagesStore _renderedImagesStore;
 
         private BitmapSource? _previewImage = null;
         public BitmapSource? PreviewImage
@@ -20,25 +22,46 @@ namespace sainim.WPF.ViewModels
             }
         }
 
-        public AnimationPreviewViewModel(AnimationStore animationStore, RenderedImagesStore renderedImagesStore)
+        public AnimationPreviewViewModel(OriginalImageStore originalImageStore, AnimationStore animationStore)
         {
+            _originalImageStore = originalImageStore;
             _animationStore = animationStore;
-            _renderedImagesStore = renderedImagesStore;
-
             _animationStore.CurrentFrameIndexChanged += ChangePreview;
+            _originalImageStore.NewImageLoaded += ChangePreview;
         }
 
         private void ChangePreview()
         {
-            var currentFrame = _animationStore.CurrentFrame;
+            if (_originalImageStore.CurrentImage is null)              // Do not update when image is not loaded
+                return;
 
-            if (currentFrame is null)
+            Frame? currentFrame = _animationStore.CurrentFrame;
+            List<string> enabledLayerTypes = _animationStore.GetSelectedLayerTypes();
+
+            if (currentFrame is null || enabledLayerTypes.Count == 0)       // If empty frame, show background
             {
-                PreviewImage = null;
+                PreviewImage = _originalImageStore.CurrentImage.BackgroundBitmap;
                 return;
             }
 
-            PreviewImage = currentFrame.Thumbnail;
+            BitmapSource? renderedImage = currentFrame.GetRenderedImage(enabledLayerTypes);
+            renderedImage ??= RenderImage(currentFrame, enabledLayerTypes, _originalImageStore.CurrentImage.BackgroundMagick); // If requested image has not been rendered yet, render and save it now
+            PreviewImage = renderedImage;
+        }
+
+        private BitmapSource? RenderImage(Frame currentFrame, List<string> enabledLayerTypes, MagickImage background)
+        {
+            //if (enabledLayerTypes.Contains("Static"))
+            //{
+
+            //}
+            //enabledLayerTypes.Remove("Static");
+
+            var enabledSublayerTypes = enabledLayerTypes.Where(l => l != "Static").ToArray();
+
+            BitmapSource renderedImage = currentFrame.MergeLayers(background, enabledSublayerTypes).ToBitmapSource();
+            currentFrame.RenderedImages[enabledLayerTypes] = renderedImage;
+            return renderedImage;
         }
     }
 }
