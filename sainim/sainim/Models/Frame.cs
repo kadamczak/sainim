@@ -19,11 +19,11 @@ namespace sainim.Models
         }
         public BitmapSource? GetRenderedImage(List<string> enabledLayerTypes) => RenderedImages.SingleOrDefault(i => i.Key.SequenceEqual(enabledLayerTypes)).Value;
 
-        public IMagickImage<ushort> GetMergedSublayers() => new MagickImageCollection(Sublayers.Select(l => l.Data))
+        public IMagickImage<ushort>? GetMergedSublayers() => new MagickImageCollection(Sublayers.Select(l => l.Data))
                                                                 .MergeWithTransparentBackground();
 
         // merge only layers with special labels that belong to a specified subset
-        public IMagickImage<ushort> GetMergedSublayers(params string[] specialLabels)
+        public IMagickImage<ushort>? GetMergedSublayers(params string[] specialLabels)
             => new MagickImageCollection(Sublayers.Where(l => specialLabels.Contains(l.SpecialLabel)).Select(l => l.Data))
                    .MergeWithTransparentBackground();
     }

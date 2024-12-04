@@ -16,5 +16,11 @@ namespace sainim.Models
         public List<Frame> Frames { get; } = frames;
 
         public List<StaticLayer> GetElementsInPlacement(Placement placement) => StaticElements.Where(l => l.Placement == placement).ToList();
+
+        public (List<StaticLayer> staticElements, List<Frame> frames) GetStaticElementsAndFrames()
+            => (StaticElements, Frames);
+
+        public (List<StaticLayer> backgroundElements, List<StaticLayer> foregroundElements, List<Frame> frames) GetBackgroundForegroundAndFrames()
+            => (GetElementsInPlacement(Placement.Background), GetElementsInPlacement(Placement.Foreground), Frames);
     }
 }
