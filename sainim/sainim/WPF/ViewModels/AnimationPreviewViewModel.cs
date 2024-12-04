@@ -1,5 +1,7 @@
 ﻿using ImageMagick;
 using sainim.Models;
+using sainim.Models.Enums;
+using sainim.Models.Extensions;
 using sainim.WPF.Bases;
 using sainim.WPF.Stores;
 using System.Windows.Media.Imaging;
@@ -26,8 +28,12 @@ namespace sainim.WPF.ViewModels
         {
             _originalImageStore = originalImageStore;
             _animationStore = animationStore;
-            _animationStore.CurrentFrameIndexChanged += ChangePreview;
-            _originalImageStore.NewImageLoaded += ChangePreview;
+            _animationStore.AnimationDataLoaded += ChangePreview;
+            _animationStore.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(_animationStore.CurrentFrameIndex))
+                    ChangePreview();
+            };
         }
 
         private void ChangePreview()
@@ -36,7 +42,7 @@ namespace sainim.WPF.ViewModels
                 return;
 
             Frame? currentFrame = _animationStore.CurrentFrame;
-            List<string> enabledLayerTypes = _animationStore.GetSelectedLayerTypes();
+            List<string> enabledLayerTypes = _animationStore.SelectableLayerTypes.GetSelectedLayerTypes();
 
             if (currentFrame is null || enabledLayerTypes.Count == 0)       // If empty frame, show background
             {
@@ -49,19 +55,33 @@ namespace sainim.WPF.ViewModels
             PreviewImage = renderedImage;
         }
 
-        private BitmapSource? RenderImage(Frame currentFrame, List<string> enabledLayerTypes, MagickImage background)
+        private BitmapSource? RenderImage(Frame currentFrame, List<string> enabledLayerTypes, IMagickImage<ushort> background)
         {
+            var enabledSublayerTypes = enabledLayerTypes.Where(l => l != "Static").ToArray();
+            IMagickImage<ushort> mergedFrame = currentFrame.MergeLayers(enabledSublayerTypes);
+
+            //var mergedLayersBeforeFrame = background;
+
+            // try composite instead of merge
+
             //if (enabledLayerTypes.Contains("Static"))
             //{
-
+            //    var backgroundElements = _originalImageStore.CurrentImage!.GetElementsInPlacement(Placement.Background);
+            //    mergedLayersBeforeFrame = new MagickImageCollection(backgroundElements.Select(e => e.Data)).Merge();
+            //    mergedFrame = new MagickImageCollection { background, mergedLayersBeforeFrame, mergedFrame }.Merge();
             //}
-            //enabledLayerTypes.Remove("Static");
 
-            var enabledSublayerTypes = enabledLayerTypes.Where(l => l != "Static").ToArray();
+            //if (enabledLayerTypes.Contains("Static"))
+            //{
+            //    var foregroundElements = _originalImageStore.CurrentImage!.GetElementsInPlacement(Placement.Foreground);
+            //    var mergedLayersAfterFrame = new MagickImageCollection(foregroundElements.Select(e => e.Data)).Merge();
+            //    mergedFrame = new MagickImageCollection{ mergedFrame, mergedLayersAfterFrame }.Merge();
+            //}
 
-            BitmapSource renderedImage = currentFrame.MergeLayers(background, enabledSublayerTypes).ToBitmapSource();
-            currentFrame.RenderedImages[enabledLayerTypes] = renderedImage;
-            return renderedImage;
+            var renderedBitmap = mergedFrame.ToBitmapSource();
+
+            currentFrame.RenderedImages[enabledLayerTypes] = renderedBitmap;
+            return renderedBitmap;
         }
     }
 }

@@ -19,14 +19,11 @@ namespace sainim.Models.Extensions
             return imageCopy;
         }
 
-        public static BitmapSource CreateThumbnail(this IMagickImage<ushort> image, uint maxDimension, MagickImage? background = null)
+        public static BitmapSource CreateThumbnail(this IMagickImage<ushort> image, uint maxDimension, IMagickImage<ushort>? background = null)
         {
-            var finalImage = MergeIfNotNull(image, background);
-            var imageCopy = finalImage.ShrinkImageWithAspectRatio(maxDimension);
-            return imageCopy.ToBitmapSource();
+            var finalImage = (background is null) ? image : new MagickImageCollection { background, image }.Merge();
+            var shrunkImage = image.ShrinkImageWithAspectRatio(maxDimension);
+            return shrunkImage.ToBitmapSource();
         }
-
-        public static IMagickImage<ushort> MergeIfNotNull(this IMagickImage<ushort> image, IMagickImage<ushort>? background)
-            => (background is null) ? image : new MagickImageCollection { background, image }.Merge();
     }
 }

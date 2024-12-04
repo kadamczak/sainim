@@ -40,7 +40,7 @@
                 Width="{Binding Width, Mode=OneWay}"
                 Minimum="0" 
                 Maximum="{Binding AnimationStore.MaxFrameIndex}" 
-                Value="{Binding AnimationStore.CurrentFrameIndex, Mode=TwoWay}" 
+                Value="{Binding AnimationStore.CurrentFrameIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                 TickFrequency="1" 
                 IsSnapToTickEnabled="True" 
                 TickPlacement="TopLeft"

@@ -1,11 +1,11 @@
 ﻿using sainim.Models;
 using sainim.Models.Extensions;
-using sainim.WPF.ViewModels.Elements;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace sainim.WPF.Stores
 {
-    public class AnimationStore
+    public class AnimationStore : INotifyPropertyChanged
     {
         private readonly OriginalImageStore _originalImageStore;
 
@@ -23,17 +23,14 @@ namespace sainim.WPF.Stores
                     throw new ArgumentException($"Attempted to set {nameof(CurrentFrameIndex)} outside possible range of 0 to {nameof(MaxFrameIndex)}.");
 
                 _currentFrameIndex = value;
-                OnCurrentFrameIndexChanged();
+                OnPropertyChanged(nameof(CurrentFrameIndex));
             }
         }
 
         // Play settings
         public int FrameRate { get; set; } = 12;
         public bool Repeating { get; set; } = false;
-        public ObservableCollection<SelectableOption> SelectableLayerTypes { get; } = [];
-        public List<string> GetSelectedLayerTypes() => SelectableLayerTypes.Where(layerType => layerType.IsSelected)
-                                                                         .Select(layerType => layerType.Name)
-                                                                         .ToList();
+        public SelectableLayerTypes SelectableLayerTypes { get; } = new();
 
         // References to data
         public ObservableCollection<Frame?> AnimationSequence { get; } = [];  // When an image is NOT loaded, this collection has 0 elements and is thus not interactable.
@@ -46,25 +43,28 @@ namespace sainim.WPF.Stores
         public List<Frame?> EmptyInteractableAnimationSequence { get; } = [];
 
         // Events
-        public event Action FrameSequenceModified;
-        public void OnFrameSequenceModified() => FrameSequenceModified?.Invoke();
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public event Action CurrentFrameIndexChanged;
-        public void OnCurrentFrameIndexChanged() => CurrentFrameIndexChanged?.Invoke();
-
+        public event Action? AnimationDataLoaded;
+        public void OnAnimationDataLoaded() => AnimationDataLoaded?.Invoke();
 
         public AnimationStore(OriginalImageStore originalImageStore)
         {
-            _originalImageStore = originalImageStore;
-            _originalImageStore.NewImageLoaded += LoadDefaultAnimationSequence;
-
             EmptyInteractableAnimationSequence.AddRange(Enumerable.Repeat<Frame?>(null, FrameSpaceCount));
+
+            _originalImageStore = originalImageStore;
+            _originalImageStore.NewImageLoaded += LoadAnimationData;
         }
 
-        private void ResetAnimationSequenceToEmptyInteractableState()
+        public void LoadAnimationData()
         {
-            AnimationSequence.Clear();
-            AnimationSequence.AddRange(EmptyInteractableAnimationSequence);
+            var staticElements = _originalImageStore.CurrentImage!.StaticElements;
+            var frames = _originalImageStore.CurrentImage!.Frames;
+            SelectableLayerTypes.UpdateLayerTypeCollection(staticElements, frames);
+            LoadDefaultAnimationSequence();
+            OnAnimationDataLoaded();
         }
 
         public void LoadDefaultAnimationSequence()
@@ -73,9 +73,12 @@ namespace sainim.WPF.Stores
 
             foreach (var (frame, i) in _originalImageStore.CurrentImage!.Frames.WithIndex())
                 AnimationSequence[i] = frame;
+        }
 
-            OnFrameSequenceModified();
-            CurrentFrameIndex = 0;
+        private void ResetAnimationSequenceToEmptyInteractableState()
+        {
+            AnimationSequence.Clear();
+            AnimationSequence.AddRange(EmptyInteractableAnimationSequence);
         }
     }
 }

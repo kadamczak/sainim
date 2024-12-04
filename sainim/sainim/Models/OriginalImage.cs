@@ -1,4 +1,5 @@
 ﻿using ImageMagick;
+using sainim.Models.Enums;
 using System.Windows.Media.Imaging;
 
 namespace sainim.Models
@@ -8,9 +9,12 @@ namespace sainim.Models
     {
         public string ImagePath { get; } = imagePath;
         public DateTime LastModified { get; } = lastModified;
+
         public MagickImage BackgroundMagick { get; } = background;
         public BitmapSource BackgroundBitmap { get; } = background.ToBitmapSource();
         public List<StaticLayer> StaticElements { get; } = staticElements;
         public List<Frame> Frames { get; } = frames;
+
+        public List<StaticLayer> GetElementsInPlacement(Placement placement) => StaticElements.Where(l => l.Placement == placement).ToList();
     }
 }
