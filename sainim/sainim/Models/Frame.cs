@@ -15,14 +15,16 @@ namespace sainim.Models
         {
             Index = index;
             Sublayers = sublayers;
-            Thumbnail = this.MergeLayers().CreateThumbnail(maxThumbnailDimension, background);
+            Thumbnail = this.GetMergedSublayers().CreateThumbnail(maxThumbnailDimension, background);
         }
         public BitmapSource? GetRenderedImage(List<string> enabledLayerTypes) => RenderedImages.SingleOrDefault(i => i.Key.SequenceEqual(enabledLayerTypes)).Value;
 
-        public IMagickImage<ushort> MergeLayers() => new MagickImageCollection(Sublayers.Select(l => l.Data)).Merge();
+        public IMagickImage<ushort> GetMergedSublayers() => new MagickImageCollection(Sublayers.Select(l => l.Data))
+                                                                .MergeWithTransparentBackground();
 
         // merge only layers with special labels that belong to a specified subset
-        public IMagickImage<ushort> MergeLayers(params string[] specialLabels)
-            => new MagickImageCollection(Sublayers.Where(l => specialLabels.Contains(l.SpecialLabel)).Select(l => l.Data)).Merge();
+        public IMagickImage<ushort> GetMergedSublayers(params string[] specialLabels)
+            => new MagickImageCollection(Sublayers.Where(l => specialLabels.Contains(l.SpecialLabel)).Select(l => l.Data))
+                   .MergeWithTransparentBackground();
     }
 }

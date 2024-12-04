@@ -1,4 +1,5 @@
 ﻿using sainim.Models;
+using sainim.Models.Enums;
 using sainim.Models.Extensions;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -60,9 +61,10 @@ namespace sainim.WPF.Stores
 
         public void LoadAnimationData()
         {
-            var staticElements = _originalImageStore.CurrentImage!.StaticElements;
+            var backgroundElements = _originalImageStore.CurrentImage!.GetElementsInPlacement(Placement.Background);
+            var foregroundElements = _originalImageStore.CurrentImage!.GetElementsInPlacement(Placement.Foreground);
             var frames = _originalImageStore.CurrentImage!.Frames;
-            SelectableLayerTypes.UpdateLayerTypeCollection(staticElements, frames);
+            SelectableLayerTypes.UpdateLayerTypeCollection(backgroundElements, foregroundElements, frames);
             LoadDefaultAnimationSequence();
             OnAnimationDataLoaded();
         }

@@ -22,7 +22,7 @@ namespace sainim.Models.Extensions
         public static BitmapSource CreateThumbnail(this IMagickImage<ushort> image, uint maxDimension, IMagickImage<ushort>? background = null)
         {
             var finalImage = (background is null) ? image : new MagickImageCollection { background, image }.Merge();
-            var shrunkImage = image.ShrinkImageWithAspectRatio(maxDimension);
+            var shrunkImage = finalImage.ShrinkImageWithAspectRatio(maxDimension);
             return shrunkImage.ToBitmapSource();
         }
     }

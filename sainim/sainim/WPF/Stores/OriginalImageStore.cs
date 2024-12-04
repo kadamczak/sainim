@@ -23,6 +23,5 @@ namespace sainim.WPF.Stores
             CurrentImage = newImage;
             OnImageReloaded();
         }
-
     }
 }

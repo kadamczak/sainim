@@ -11,21 +11,24 @@ namespace sainim.WPF.Stores
                                                                  .Select(layerType => layerType.Name)
                                                                  .ToList();
 
-        public void UpdateLayerTypeCollection(List<StaticLayer> staticElements, List<Frame> frames)
+        public void UpdateLayerTypeCollection(List<StaticLayer> backgroundElements, List<StaticLayer> foregroundElements, List<Frame> frames)
         {
             LayerTypes.Clear();
-            List<string> layerNames = ExtractLayerNames(staticElements, frames);
+            List<string> layerNames = ExtractLayerNames(backgroundElements, foregroundElements, frames);
 
             foreach (var layerName in layerNames)
                 LayerTypes.Add(new SelectableOption(layerName, true));
         }
 
-        private List<string> ExtractLayerNames(List<StaticLayer> staticElements, List<Frame> frames)
+        private List<string> ExtractLayerNames(List<StaticLayer> backgroundElements, List<StaticLayer> foregroundElements, List<Frame> frames)
         {
             List<string> extractedLayerTypes = [];
 
-            if (staticElements.Count != 0)
-                extractedLayerTypes.Add("Static");
+            if (backgroundElements.Count > 0)
+                extractedLayerTypes.Add("Background");
+
+            if (foregroundElements.Count > 0)
+                extractedLayerTypes.Add("Foreground");
 
             extractedLayerTypes.AddRange(GetDistinctSublayerSpecialLabels(frames));
             return extractedLayerTypes;

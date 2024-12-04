@@ -57,29 +57,28 @@ namespace sainim.WPF.ViewModels
 
         private BitmapSource? RenderImage(Frame currentFrame, List<string> enabledLayerTypes, IMagickImage<ushort> background)
         {
-            var enabledSublayerTypes = enabledLayerTypes.Where(l => l != "Static").ToArray();
-            IMagickImage<ushort> mergedFrame = currentFrame.MergeLayers(enabledSublayerTypes);
+            var enabledSublayerTypes = enabledLayerTypes.Where(l => l != "Background" && l != "Foreground").ToArray();
+            IMagickImage<ushort> mergedFrame = currentFrame.GetMergedSublayers(enabledSublayerTypes);
 
-            //var mergedLayersBeforeFrame = background;
+            var mergedLayersBeforeFrame = background;
 
-            // try composite instead of merge
+            if (enabledLayerTypes.Contains("Background")) // Add background static elements
+            {
+                var backgroundElements = _originalImageStore.CurrentImage!.GetElementsInPlacement(Placement.Background);
+                var backgroundElementsMerged = new MagickImageCollection(backgroundElements.Select(e => e.Data)).MergeWithTransparentBackground();
+                mergedLayersBeforeFrame = new MagickImageCollection { background, backgroundElementsMerged }.Merge();
+            }
 
-            //if (enabledLayerTypes.Contains("Static"))
-            //{
-            //    var backgroundElements = _originalImageStore.CurrentImage!.GetElementsInPlacement(Placement.Background);
-            //    mergedLayersBeforeFrame = new MagickImageCollection(backgroundElements.Select(e => e.Data)).Merge();
-            //    mergedFrame = new MagickImageCollection { background, mergedLayersBeforeFrame, mergedFrame }.Merge();
-            //}
+            mergedFrame = new MagickImageCollection { mergedLayersBeforeFrame, mergedFrame }.Merge();
 
-            //if (enabledLayerTypes.Contains("Static"))
-            //{
-            //    var foregroundElements = _originalImageStore.CurrentImage!.GetElementsInPlacement(Placement.Foreground);
-            //    var mergedLayersAfterFrame = new MagickImageCollection(foregroundElements.Select(e => e.Data)).Merge();
-            //    mergedFrame = new MagickImageCollection{ mergedFrame, mergedLayersAfterFrame }.Merge();
-            //}
+            if (enabledLayerTypes.Contains("Foreground")) // Add foreground static elements
+            {
+                var foregroundElements = _originalImageStore.CurrentImage!.GetElementsInPlacement(Placement.Foreground);
+                var foregroundElementsMerged = new MagickImageCollection(foregroundElements.Select(e => e.Data)).MergeWithTransparentBackground();
+                mergedFrame = new MagickImageCollection { mergedFrame, foregroundElementsMerged }.Merge();
+            }
 
             var renderedBitmap = mergedFrame.ToBitmapSource();
-
             currentFrame.RenderedImages[enabledLayerTypes] = renderedBitmap;
             return renderedBitmap;
         }
