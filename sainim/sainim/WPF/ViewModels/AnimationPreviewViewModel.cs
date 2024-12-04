@@ -35,6 +35,11 @@ namespace sainim.WPF.ViewModels
                 if (e.PropertyName == nameof(_animationStore.CurrentFrameIndex))
                     ChangePreview();
             };
+            _animationStore.SelectableLayerTypes.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(_animationStore.SelectableLayerTypes.LayerTypes))
+                    ChangePreview();
+            };
         }
 
         private void ChangePreview()

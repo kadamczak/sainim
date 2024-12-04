@@ -44,21 +44,13 @@ namespace sainim.WPF.Stores
         public List<Frame?> EmptyInteractableAnimationSequence { get; } = [];
 
         // Events
-        private bool _enableEvents = true;
-
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
-        {
-            if (_enableEvents)
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public event Action? AnimationDataLoaded;
         public void OnAnimationDataLoaded()
-        {
-            if (_enableEvents)
-                AnimationDataLoaded?.Invoke();
-        }
+            => AnimationDataLoaded?.Invoke();
 
         public AnimationStore(OriginalImageStore originalImageStore)
         {
@@ -70,12 +62,9 @@ namespace sainim.WPF.Stores
 
         public void LoadAnimationData()
         {
-            _enableEvents = false;
             var (backgroundElements, foregroundElements, frames) = _originalImageStore.CurrentImage!.GetBackgroundForegroundAndFrames();
             SelectableLayerTypes.UpdateLayerTypeCollection(backgroundElements, foregroundElements, frames);
             LoadDefaultAnimationSequence();
-            _enableEvents = true;
-
             OnAnimationDataLoaded();
         }
 
