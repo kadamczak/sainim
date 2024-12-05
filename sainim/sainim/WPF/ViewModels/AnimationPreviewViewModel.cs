@@ -12,6 +12,7 @@ namespace sainim.WPF.ViewModels
     {
         private readonly OriginalImageStore _originalImageStore;
         private readonly AnimationStore _animationStore;
+        private readonly FrameRenderer _frameRenderer;
 
         private BitmapSource? _previewImage = null;
         public BitmapSource? PreviewImage
@@ -24,10 +25,11 @@ namespace sainim.WPF.ViewModels
             }
         }
 
-        public AnimationPreviewViewModel(OriginalImageStore originalImageStore, AnimationStore animationStore)
+        public AnimationPreviewViewModel(OriginalImageStore originalImageStore, AnimationStore animationStore, FrameRenderer frameRenderer)
         {
             _originalImageStore = originalImageStore;
             _animationStore = animationStore;
+            _frameRenderer = frameRenderer;
 
             _animationStore.AnimationDataLoaded += ChangePreview;
             _animationStore.PropertyChanged += (s, e) =>
@@ -56,41 +58,11 @@ namespace sainim.WPF.ViewModels
                 return;
             }
 
-            BitmapSource? renderedImage = currentFrame.GetRenderedImage(enabledLayerTypes);
-            renderedImage ??= RenderImage(currentFrame, enabledLayerTypes, _originalImageStore.CurrentImage.BackgroundMagick); // If requested image has not been rendered yet, render and save it now
-            PreviewImage = renderedImage;
-        }
+            BitmapSource? renderedFrame = currentFrame.GetRenderedBitmap(enabledLayerTypes);
 
-        private BitmapSource? RenderImage(Frame currentFrame, List<string> enabledLayerTypes, IMagickImage<ushort> background)
-        {
-            var mergedImage = background;
-
-            if (enabledLayerTypes.Contains("Background")) // Add background static elements
-                mergedImage = MergeWithElements(mergedImage, Placement.Background);
-
-            mergedImage = MergeWithFrameIfFrameHasVisibleLayers(mergedImage, currentFrame, enabledLayerTypes);
-
-            if (enabledLayerTypes.Contains("Foreground")) // Add foreground static elements
-                mergedImage = MergeWithElements(mergedImage, Placement.Foreground);
-
-            var renderedBitmap = mergedImage.ToBitmapSource();
-            currentFrame.RenderedImages[enabledLayerTypes] = renderedBitmap;
-            return renderedBitmap;
-        }
-
-        private IMagickImage<ushort> MergeWithElements(IMagickImage<ushort> baseImage, Placement placementOfElements)
-        {
-            var elements = _originalImageStore.CurrentImage!.GetElementsInPlacement(placementOfElements);
-            var elementsMerged = new MagickImageCollection(elements.Select(e => e.Data)).MergeWithTransparentBackground();
-            return new MagickImageCollection { baseImage, elementsMerged! }.Merge();
-        }
-
-        private IMagickImage<ushort> MergeWithFrameIfFrameHasVisibleLayers(IMagickImage<ushort> baseImage, Frame frame, List<string> enabledLayerTypes)
-        {
-            var enabledSublayerTypes = enabledLayerTypes.Where(l => l != "Background" && l != "Foreground").ToArray();
-            var mergedFrame = frame.GetMergedSublayers(enabledSublayerTypes);
-
-            return (mergedFrame is null) ? baseImage : new MagickImageCollection { baseImage, mergedFrame }.Merge();
+            // If requested image has not been rendered yet, render and save it now
+            renderedFrame ??= _frameRenderer.RenderFrame(currentFrame, _originalImageStore.CurrentImage, enabledLayerTypes);
+            PreviewImage = renderedFrame;
         }
     }
 }

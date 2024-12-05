@@ -11,7 +11,7 @@ namespace sainim.WPF.ViewModels
         public AnimationStore AnimationStore { get; }
 
         public ICommand JumpToFirstFrame { get; }
-        public ICommand PlayAnimation { get; } = new PlayAnimationCommand();
+        public ICommand PlayAnimation { get; }
         public ICommand JumpToLastFrame { get; }
 
         public PlayBarViewModel(OriginalImageStore originalImageStore, AnimationStore animationStore)
@@ -20,6 +20,7 @@ namespace sainim.WPF.ViewModels
             AnimationStore = animationStore;
 
             JumpToFirstFrame = new JumpToFirstFrameCommand(AnimationStore);
+            PlayAnimation = new PlayAnimationCommand(AnimationStore);
             JumpToLastFrame = new JumpToLastFrameCommand(AnimationStore);
         }
     }

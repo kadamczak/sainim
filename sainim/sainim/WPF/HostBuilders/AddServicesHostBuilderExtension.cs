@@ -10,7 +10,8 @@ namespace sainim.WPF.HostBuilders
         {
             hostBuilder.ConfigureServices(services =>
             {
-                services.AddTransient<OriginalImageFactory>();
+                services.AddSingleton<OriginalImageFactory>();
+                services.AddSingleton<FrameRenderer>();
             });
 
             return hostBuilder;

@@ -9,7 +9,7 @@ namespace sainim.Models
         public int Index { get; }
         public BitmapSource Thumbnail { get; }
         public List<FrameSublayer> Sublayers { get; }
-        public Dictionary<List<string>, BitmapSource> RenderedImages { get; } = [];
+        public Dictionary<List<string>, BitmapSource> RenderedBitmaps { get; } = [];
 
         public Frame(int index, List<FrameSublayer> sublayers, MagickImage background, uint maxThumbnailDimension = 250)
         {
@@ -17,7 +17,7 @@ namespace sainim.Models
             Sublayers = sublayers;
             Thumbnail = this.GetMergedSublayers().CreateThumbnail(maxThumbnailDimension, background);
         }
-        public BitmapSource? GetRenderedImage(List<string> enabledLayerTypes) => RenderedImages.SingleOrDefault(i => i.Key.SequenceEqual(enabledLayerTypes)).Value;
+        public BitmapSource? GetRenderedBitmap(List<string> enabledLayerTypes) => RenderedBitmaps.SingleOrDefault(i => i.Key.SequenceEqual(enabledLayerTypes)).Value;
 
         public IMagickImage<ushort>? GetMergedSublayers() => new MagickImageCollection(Sublayers.Select(l => l.Data))
                                                                 .MergeWithTransparentBackground();
