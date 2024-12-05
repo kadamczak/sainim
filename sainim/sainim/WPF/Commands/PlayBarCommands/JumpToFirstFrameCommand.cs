@@ -9,7 +9,9 @@ namespace sainim.WPF.Commands.PlayBarCommands
 
         public override void Execute(object? parameter)
         {
-            
+            // find first full frame in _animationStore.AnimationSequence
+            _animationStore.CurrentFrameIndex = _animationStore.AnimationSequence.ToList()
+                                                                                 .FindIndex(frame => frame != null);
         }
     }
 }
