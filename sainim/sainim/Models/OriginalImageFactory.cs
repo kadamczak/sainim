@@ -11,11 +11,19 @@ namespace sainim.Models
             DateTime lastModified = File.GetLastWriteTime(path);
 
             var _imageData = new MagickImageCollection(path);
+            // visible: 120, 100
+            // total: 120-more, 100
 
             // create transparent image with the width and height of the whole original image
             // to center the thumbnails of the rest of the layers which might be offseted
-            var background = new MagickImage(MagickColors.White, _imageData[0].Width, _imageData[0].Height);
+            uint width = _imageData[0].Width;
+            uint height = _imageData[0].Height;
+
+            var background = new MagickImage(MagickColors.White, width, height);
             _imageData.RemoveAt(0);
+
+            foreach (var layer in _imageData)
+                layer.Crop(width, height);
 
             //get index of first frame sublayer in _imageData.
             int firstFrameSublayerIndex = FindIndexOfFirstFrameSublayer(_imageData);
