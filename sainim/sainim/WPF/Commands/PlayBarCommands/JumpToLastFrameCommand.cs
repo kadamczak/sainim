@@ -9,9 +9,12 @@ namespace sainim.WPF.Commands.PlayBarCommands
 
         public override void Execute(object? parameter)
         {
-            // find last full frame in _animationStore.AnimationSequence
-            _animationStore.CurrentFrameIndex = _animationStore.AnimationSequence.ToList()
-                                                                                 .FindLastIndex(frame => frame != null);
+            int lastIndex = _animationStore.FindLastFullFrameIndex();
+
+            if (lastIndex == -1)
+                return;
+               
+            _animationStore.CurrentFrameIndex = lastIndex;
         }
     }
 }

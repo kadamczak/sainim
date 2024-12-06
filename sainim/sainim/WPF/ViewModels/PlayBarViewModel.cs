@@ -1,4 +1,5 @@
-﻿using sainim.WPF.Bases;
+﻿using sainim.Models;
+using sainim.WPF.Bases;
 using sainim.WPF.Commands.PlayBarCommands;
 using sainim.WPF.Stores;
 using System.Windows.Input;
@@ -14,14 +15,14 @@ namespace sainim.WPF.ViewModels
         public ICommand PlayAnimation { get; }
         public ICommand JumpToLastFrame { get; }
 
-        public PlayBarViewModel(OriginalImageStore originalImageStore, AnimationStore animationStore)
+        public PlayBarViewModel(OriginalImageStore originalImageStore, AnimationStore animationStore, FrameRenderer frameRenderer)
         {
             _originalImageStore = originalImageStore;
             AnimationStore = animationStore;
 
-            JumpToFirstFrame = new JumpToFirstFrameCommand(AnimationStore);
-            PlayAnimation = new PlayAnimationCommand(AnimationStore);
-            JumpToLastFrame = new JumpToLastFrameCommand(AnimationStore);
+            JumpToFirstFrame = new JumpToFirstFrameCommand(animationStore);
+            PlayAnimation = new PlayAnimationCommand(originalImageStore, animationStore, frameRenderer);
+            JumpToLastFrame = new JumpToLastFrameCommand(animationStore);
         }
     }
 }

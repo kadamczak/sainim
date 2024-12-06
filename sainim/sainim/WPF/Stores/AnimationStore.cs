@@ -39,6 +39,8 @@ namespace sainim.WPF.Stores
                                                                               // are represented by null and are interactable.
 
         public Frame? CurrentFrame => AnimationSequence[CurrentFrameIndex];
+        public int FindFirstFullFrameIndex() => AnimationSequence.ToList().FindIndex(frame => frame != null);
+        public int FindLastFullFrameIndex() => AnimationSequence.ToList().FindLastIndex(frame => frame != null);
 
         // Saved to reduce repetition
         public List<Frame?> EmptyInteractableAnimationSequence { get; } = [];

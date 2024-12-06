@@ -22,8 +22,8 @@ namespace sainim.Models
             var background = new MagickImage(MagickColors.White, width, height);
             _imageData.RemoveAt(0);
 
-            foreach (var layer in _imageData)
-                layer.Crop(width, height);
+            CropOffScreenContent(_imageData, width, height);
+            ShowHiddenLayers(_imageData);
 
             //get index of first frame sublayer in _imageData.
             int firstFrameSublayerIndex = FindIndexOfFirstFrameSublayer(_imageData);
@@ -32,6 +32,18 @@ namespace sainim.Models
             var frames = ExtractFrames(_imageData, background);
 
             return new OriginalImage(path, lastModified, background, staticElements, frames);
+        }
+
+        private void CropOffScreenContent(MagickImageCollection image, uint width, uint height)
+        {
+            foreach (var layer in image)
+                layer.Crop(width, height);
+        }
+        private void ShowHiddenLayers(MagickImageCollection image)
+        {
+            foreach (var layer in image)
+                if (layer.Compose == CompositeOperator.No)
+                    layer.Compose = CompositeOperator.Over;
         }
 
         private int FindIndexOfFirstFrameSublayer(MagickImageCollection image)

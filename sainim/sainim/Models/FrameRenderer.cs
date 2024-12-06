@@ -7,9 +7,9 @@ namespace sainim.Models
 {
     public class FrameRenderer
     {
-        public BitmapSource? RenderFrame(Frame selectedFrame, OriginalImage originalImage, List<string> enabledLayerTypes)
+        public BitmapSource RenderFrame(Frame selectedFrame, OriginalImage originalImage, List<string> enabledLayerTypes)
         {
-            var mergedImage = originalImage.BackgroundMagick;
+            IMagickImage<ushort> mergedImage = originalImage.BackgroundMagick;
 
             if (enabledLayerTypes.Contains("Background")) // Add background static elements
                 mergedImage = MergeWithElements(mergedImage, originalImage, Placement.Background);
