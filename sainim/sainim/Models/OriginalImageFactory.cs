@@ -11,18 +11,16 @@ namespace sainim.Models
             DateTime lastModified = File.GetLastWriteTime(path);
 
             var _imageData = new MagickImageCollection(path);
-            // visible: 120, 100
-            // total: 120-more, 100
 
             // create transparent image with the width and height of the whole original image
-            // to center the thumbnails of the rest of the layers which might be offseted
+            // to center the rest of the layers which might be offseted
             uint width = _imageData[0].Width;
             uint height = _imageData[0].Height;
 
             var background = new MagickImage(MagickColors.White, width, height);
             _imageData.RemoveAt(0);
 
-            CropOffScreenContent(_imageData, width, height);
+            CropOffscreenContent(_imageData, width, height);
             ShowHiddenLayers(_imageData);
 
             //get index of first frame sublayer in _imageData.
@@ -34,7 +32,7 @@ namespace sainim.Models
             return new OriginalImage(path, lastModified, background, staticElements, frames);
         }
 
-        private void CropOffScreenContent(MagickImageCollection image, uint width, uint height)
+        private void CropOffscreenContent(MagickImageCollection image, uint width, uint height)
         {
             foreach (var layer in image)
                 layer.Crop(width, height);
