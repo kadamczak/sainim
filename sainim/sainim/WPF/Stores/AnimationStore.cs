@@ -1,5 +1,4 @@
 ﻿using sainim.Models;
-using sainim.Models.Enums;
 using sainim.Models.Extensions;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -42,6 +41,7 @@ namespace sainim.WPF.Stores
                 OnPropertyChanged(nameof(FrameRate));
             }
         }
+        public double GetMillisecondsBetweenFrames() => 1000.0 / FrameRate;
 
         public bool Repeating { get; set; } = false;
         public SelectableLayerTypes SelectableLayerTypes { get; } = new();

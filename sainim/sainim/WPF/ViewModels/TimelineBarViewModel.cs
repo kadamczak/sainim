@@ -24,7 +24,7 @@ namespace sainim.WPF.ViewModels
         {
             _originalImageStore = originalImageStore;
             AnimationStore = animationStore;
-            AnimationStore.PropertyChanged += (s, e) => { if (e.PropertyName == "FrameRate") UpdateTimeLabels(); };
+            AnimationStore.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(AnimationStore.FrameRate)) UpdateTimeLabels(); };
 
             CreateTickLabels();
             UpdateTimeLabels();

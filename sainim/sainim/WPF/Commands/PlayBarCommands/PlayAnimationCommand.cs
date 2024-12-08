@@ -41,8 +41,7 @@ namespace sainim.WPF.Commands.PlayBarCommands
 
         private void StartTimer()
         {
-            double millisecondsBetweenFrames = 1000.0 / _animationStore.FrameRate;
-            timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(millisecondsBetweenFrames)};
+            timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(_animationStore.GetMillisecondsBetweenFrames())};
             timer.Tick += AdvanceFrame();
             timer.Start();
         }
@@ -82,6 +81,17 @@ namespace sainim.WPF.Commands.PlayBarCommands
             _originalImageStore = originalImageStore;
             _animationStore = animationStore;
             _frameRenderer = frameRenderer;
+
+            _originalImageStore.NewImageLoaded += StopTimer;
+            _animationStore.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(AnimationStore.FrameRate)) UpdateTimerInterval(); };
+        }
+
+        private void UpdateTimerInterval()
+        {
+            if (timer is null)
+                return;
+
+            timer.Interval = TimeSpan.FromMilliseconds(_animationStore.GetMillisecondsBetweenFrames());
         }
 
         public override void Execute(object? parameter)
