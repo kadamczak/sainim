@@ -38,6 +38,10 @@ namespace sainim.WPF.Commands.MenuBarCommands
                 {
                     ExportGif(saveFileDialog.FileName);
                 }
+                catch (IOException e)
+                {
+                    _messageBoxHelpers.ShowGenericErrorMessageBox("IOError".Resource(), e.Message);
+                }
                 catch (Exception e)
                 {
                     _messageBoxHelpers.ShowGenericErrorMessageBox("UnknownErrorOperationUnsuccessful".Resource(), e.Message);
@@ -51,9 +55,24 @@ namespace sainim.WPF.Commands.MenuBarCommands
         {
             (int firstFrameIndex, int lastFrameIndex) = _animationStore.FindFirstAndLastFullFrameIndices();
             var enabledLayerTypes = _animationStore.SelectableLayerTypes.GetSelectedLayerTypes();
-            bool isRepeating = _animationStore.Repeating;
 
+            if (firstFrameIndex < 0 || (firstFrameIndex == lastFrameIndex))
+                return;
+
+            // Image rendering
             _animationStore.RenderMissingFrames(firstFrameIndex, lastFrameIndex, enabledLayerTypes);
+            
+            // Create gif
+            var gifImageCollection = CreateGifImageCollection(firstFrameIndex, lastFrameIndex, enabledLayerTypes);
+            SetGifFrameRate(gifImageCollection);
+            SetGifRepeat(gifImageCollection);
+
+            // Write
+            gifImageCollection.Write(fileName);
+        }
+
+        private MagickImageCollection CreateGifImageCollection(int firstFrameIndex, int lastFrameIndex, List<string> enabledLayerTypes)
+        {
             var gifImageCollection = new MagickImageCollection();
 
             for (int i = firstFrameIndex; i <= lastFrameIndex; i++)
@@ -67,17 +86,8 @@ namespace sainim.WPF.Commands.MenuBarCommands
                 gifImageCollection.Add(magickLayer);
             }
 
-            // set framerate
-            uint delay = (uint) _animationStore.GetMillisecondsBetweenFrames() / 10;
-            foreach (var image in gifImageCollection)
-                image.AnimationDelay = delay;
-
-            gifImageCollection[0].AnimationIterations = (uint)(isRepeating ? 0 : 1);
-
-            //create gif from gifImageCollection
-            gifImageCollection.Write(fileName);
+            return gifImageCollection;
         }
-
         private static MagickImage BitmapSourceToMagickImage(BitmapSource bitmapSource)
         {
             byte[] byteArray = BitmapSourceToByteArray(bitmapSource);
@@ -92,5 +102,15 @@ namespace sainim.WPF.Commands.MenuBarCommands
             encoder.Save(stream);
             return stream.ToArray();
         }
+
+        private void SetGifFrameRate(MagickImageCollection gifImageCollection)
+        {
+            uint delay = (uint)_animationStore.GetMillisecondsBetweenFrames() / 10;
+            foreach (var image in gifImageCollection)
+                image.AnimationDelay = delay;
+        }
+
+        private void SetGifRepeat(MagickImageCollection gifImageCollection)
+            => gifImageCollection[0].AnimationIterations = (uint)(_animationStore.Repeating ? 0 : 1);
     }
 }
