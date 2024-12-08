@@ -16,11 +16,26 @@
             <Grid Margin="30 10 0 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="20"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <ItemsControl ItemsSource="{Binding TickLabels}">
+                <ItemsControl ItemsSource="{Binding TimeLabels}" Grid.Row="0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding}" FontSize="12" Foreground="White" Width="80.55" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ItemsControl ItemsSource="{Binding TickLabels}" Grid.Row="1">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" Margin="0" />
@@ -34,7 +49,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                            <!-- Frame Slider -->
+                <!-- Frame Slider -->
                             <Slider x:Name="FrameSlider" 
                 HorizontalAlignment="Left"
                 Width="{Binding Width, Mode=OneWay}"
@@ -44,12 +59,12 @@
                 TickFrequency="1" 
                 IsSnapToTickEnabled="True" 
                 TickPlacement="TopLeft"
-                Grid.Row="1" Margin="3 0 0 0" Padding="0" />
+                Grid.Row="2" Margin="3 0 0 0" Padding="0" />
 
 
 
                 <!-- Thumbnails -->
-                <ListBox VerticalAlignment="Top" ItemsSource="{Binding AnimationStore.AnimationSequence}" Grid.Row="2" BorderThickness="0" Margin="0" Padding="7 0 0 0">
+                <ListBox VerticalAlignment="Top" ItemsSource="{Binding AnimationStore.AnimationSequence}" Grid.Row="3" BorderThickness="0" Margin="0" Padding="7 0 0 0">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal" Margin="0"/>

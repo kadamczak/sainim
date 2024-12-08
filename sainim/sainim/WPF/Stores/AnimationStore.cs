@@ -29,7 +29,20 @@ namespace sainim.WPF.Stores
         }
 
         // Play settings
-        public int FrameRate { get; set; } = 12;
+        private int _frameRate = 12;
+        public int FrameRate
+        {
+            get => _frameRate;
+            set
+            {
+                if (value < 1 || value > 60)
+                    return;
+
+                _frameRate = value;
+                OnPropertyChanged(nameof(FrameRate));
+            }
+        }
+
         public bool Repeating { get; set; } = false;
         public SelectableLayerTypes SelectableLayerTypes { get; } = new();
 

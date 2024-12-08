@@ -19,14 +19,16 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/star.png" Width="50" Height="50" />
+            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" ImageSource="/Resources/Images/star.png" Width="50" Height="50" />
 
-            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/repeat.png" Width="50" Height="50" Margin="0 5 0 0" />
+            <customui:ToggleIconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ToggleRepeat}"  ImageSource="/Resources/Images/repeat.png"  Width="50" Height="50" Margin="0 5 0 0" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" >
             <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding JumpToFirstFrame}" ImageSource="/Resources/Images/tobegin.png" Width="50" Height="50" />
-            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/play.png" Width="56" Height="56"  Margin="0 5 0 0"  />
+            
+            <customui:ToggleIconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/play.png" Width="56" Height="56"  Margin="0 5 0 0" IsChecked="{Binding PlayAnimation.IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            
             <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding JumpToLastFrame}" ImageSource="/Resources/Images/toend.png" Width="50" Height="50" Margin="0 5 0 0" />
 
             <StackPanel Orientation="Horizontal" Height="30" Margin="0 20 0 0" HorizontalAlignment="Center" >

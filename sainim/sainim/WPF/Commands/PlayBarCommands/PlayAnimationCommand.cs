@@ -1,15 +1,81 @@
 ﻿using sainim.Models;
 using sainim.WPF.Bases;
 using sainim.WPF.Stores;
+using System.ComponentModel;
 using System.Windows.Threading;
 
 namespace sainim.WPF.Commands.PlayBarCommands
 {
-    public class PlayAnimationCommand : CommandBase
+    public class PlayAnimationCommand : CommandBase, INotifyPropertyChanged
     {
         private OriginalImageStore _originalImageStore { get; }
         private AnimationStore _animationStore { get; }
         private FrameRenderer _frameRenderer { get; }
+
+        private bool _isPlaying = false;
+        public bool IsPlaying
+        {
+            get => _isPlaying;
+            set
+            {
+                _isPlaying = value;
+                OnPropertyChanged(nameof(IsPlaying));
+            }
+        }
+
+        private bool _isChecked = false;
+        public bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                _isChecked = value;
+                OnPropertyChanged(nameof(IsChecked));
+            }
+        }
+
+        private int SavedFirstFrameIndex { get; set; } = -1;
+        private int SavedLastFrameIndex { get; set; } = -1;
+
+        private DispatcherTimer timer;
+
+        private void StartTimer()
+        {
+            double millisecondsBetweenFrames = 1000.0 / _animationStore.FrameRate;
+            timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(millisecondsBetweenFrames)};
+            timer.Tick += AdvanceFrame();
+            timer.Start();
+        }
+
+        private EventHandler AdvanceFrame()
+        {
+            return (s, e) =>
+            {
+                if (IsOnLastFrame())
+                {
+                    if(!_animationStore.Repeating)
+                        StopTimer();
+                    else
+                        _animationStore.CurrentFrameIndex = SavedFirstFrameIndex;
+                }
+                else
+                {
+                    _animationStore.CurrentFrameIndex++;
+                }
+            };
+        }
+
+        private bool IsOnLastFrame() => _animationStore.CurrentFrameIndex == SavedLastFrameIndex;
+
+        private void StopTimer()
+        {
+            timer?.Stop();
+            IsPlaying = false;
+            IsChecked = false;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public PlayAnimationCommand(OriginalImageStore originalImageStore, AnimationStore animationStore, FrameRenderer frameRenderer)
         {
@@ -20,43 +86,48 @@ namespace sainim.WPF.Commands.PlayBarCommands
 
         public override void Execute(object? parameter)
         {
-            int firstFrameIndex = _animationStore.FindFirstFullFrameIndex();
-            int lastFrameIndex = _animationStore.FindLastFullFrameIndex();
+            if (IsPlaying)
+            {
+                StopTimer();
+                return;
+            }
+
+            SavedFirstFrameIndex = _animationStore.FindFirstFullFrameIndex();
+            SavedLastFrameIndex = _animationStore.FindLastFullFrameIndex();
+            bool isRepeating = _animationStore.Repeating;
 
             // Safeguards
-            if (!AnimationCanPlay(firstFrameIndex, lastFrameIndex))
+            if (!AnimationCanPlay(isRepeating))
+            {
+                IsPlaying = false;
+                IsChecked = false;
                 return;
+            }
+
+            IsPlaying = true;
 
             // Render frames that have not been rendered yet
             var enabledLayerTypes = _animationStore.SelectableLayerTypes.GetSelectedLayerTypes();
-            RenderMissingFrames(enabledLayerTypes, firstFrameIndex, lastFrameIndex);
+            RenderMissingFrames(enabledLayerTypes);
 
-            // Set clocks to change frames
-            float millisecondsBetweenFrames = 1000 / _animationStore.FrameRate;
-
-            // Using millisecondsBetweenFrames intervals, framesLeftToPlay times, raise the CurrentFrameIndex by 1.
-            DispatcherTimer timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(millisecondsBetweenFrames)
-            };
-
-            timer.Tick += (s, e) =>
-            {
-                if (_animationStore.CurrentFrameIndex < lastFrameIndex)
-                    _animationStore.CurrentFrameIndex++;
-                else
-                    timer.Stop();
-            };
-
-            timer.Start();
+            // Start playing
+            StartTimer();
         }
 
-        private bool AnimationCanPlay(int firstFrameIndex, int lastFrameIndex)
-            => (firstFrameIndex != -1) && (firstFrameIndex != lastFrameIndex) && (_animationStore.CurrentFrameIndex != lastFrameIndex);
-
-        private void RenderMissingFrames(List<string> enabledLayerTypes, int firstFrameIndex, int lastFrameIndex)
+        private bool AnimationCanPlay(bool isRepeating)
         {
-            var framesToRender = _animationStore.AnimationSequence.Skip(firstFrameIndex).Take(lastFrameIndex - firstFrameIndex + 1);
+            if ((SavedFirstFrameIndex < 0) || (SavedFirstFrameIndex == SavedLastFrameIndex))
+                return false;
+
+            if (!isRepeating && IsOnLastFrame())
+                return false;
+
+            return true;
+        }
+
+        private void RenderMissingFrames(List<string> enabledLayerTypes)
+        {
+            var framesToRender = _animationStore.AnimationSequence.Skip(SavedFirstFrameIndex).Take(SavedLastFrameIndex - SavedFirstFrameIndex + 1);
 
             foreach (var frame in framesToRender)
             {
@@ -68,6 +139,5 @@ namespace sainim.WPF.Commands.PlayBarCommands
                 frame!.RenderedBitmaps[enabledLayerTypes] = _frameRenderer.RenderFrame(frame!, _originalImageStore.CurrentImage!, enabledLayerTypes);
             }
         }
-
     }
 }

@@ -11,6 +11,7 @@ namespace sainim.WPF.ViewModels
         private readonly OriginalImageStore _originalImageStore;
         public AnimationStore AnimationStore { get; }
 
+        public ICommand ToggleRepeat { get; }
         public ICommand JumpToFirstFrame { get; }
         public ICommand PlayAnimation { get; }
         public ICommand JumpToLastFrame { get; }
@@ -20,6 +21,7 @@ namespace sainim.WPF.ViewModels
             _originalImageStore = originalImageStore;
             AnimationStore = animationStore;
 
+            ToggleRepeat = new ToggleRepeatCommand(animationStore);
             JumpToFirstFrame = new JumpToFirstFrameCommand(animationStore);
             PlayAnimation = new PlayAnimationCommand(originalImageStore, animationStore, frameRenderer);
             JumpToLastFrame = new JumpToLastFrameCommand(animationStore);

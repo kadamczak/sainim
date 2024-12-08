@@ -1,7 +1,4 @@
-﻿using ImageMagick;
-using sainim.Models;
-using sainim.Models.Enums;
-using sainim.Models.Extensions;
+﻿using sainim.Models;
 using sainim.WPF.Bases;
 using sainim.WPF.Stores;
 using System.Windows.Media.Imaging;

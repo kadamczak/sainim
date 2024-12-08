@@ -18,12 +18,26 @@ namespace sainim.WPF.ViewModels
 
         // Observable collections
         public ObservableCollection<string> TickLabels { get; } = [];
+        public ObservableCollection<string> TimeLabels { get; } = [];
 
         public TimelineBarViewModel(AnimationStore animationStore, OriginalImageStore originalImageStore)
         {
             _originalImageStore = originalImageStore;
             AnimationStore = animationStore;
+            AnimationStore.PropertyChanged += (s, e) => { if (e.PropertyName == "FrameRate") UpdateTimeLabels(); };
+
             CreateTickLabels();
+            UpdateTimeLabels();
+        }
+        private void UpdateTimeLabels()
+        {
+            double millisecondsBetweenFrames = 1000 / AnimationStore.FrameRate;
+
+            var timeLabels = Enumerable.Range(0, AnimationStore.FrameSpaceCount)
+                .Select(n => TimeSpan.FromMilliseconds(n * millisecondsBetweenFrames).TotalSeconds.ToString("F2"));
+
+            TimeLabels.Clear();
+            TimeLabels.AddRange(timeLabels);
         }
 
         private void CreateTickLabels()
