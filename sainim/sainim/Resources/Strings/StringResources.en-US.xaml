@@ -13,6 +13,7 @@
     <system:String x:Key="Credits">Credits</system:String>
 
     <system:String x:Key="ImportPSDImage">Import PSD Image</system:String>
+    <system:String x:Key="ExportGif">Export GIF</system:String>
     <system:String x:Key="Reload">Reload Image</system:String>
 
     <!--Content Bar-->

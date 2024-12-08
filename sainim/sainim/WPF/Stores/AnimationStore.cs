@@ -8,6 +8,7 @@ namespace sainim.WPF.Stores
     public class AnimationStore : INotifyPropertyChanged
     {
         private readonly OriginalImageStore _originalImageStore;
+        private readonly FrameRenderer _frameRenderer;
 
         // Frame numbering
         public int MaxFrameIndex { get; } = 255;
@@ -54,6 +55,12 @@ namespace sainim.WPF.Stores
         public Frame? CurrentFrame => AnimationSequence[CurrentFrameIndex];
         public int FindFirstFullFrameIndex() => AnimationSequence.ToList().FindIndex(frame => frame != null);
         public int FindLastFullFrameIndex() => AnimationSequence.ToList().FindLastIndex(frame => frame != null);
+        public (int first, int last) FindFirstAndLastFullFrameIndices()
+        {
+            int first = FindFirstFullFrameIndex();
+            int last = FindLastFullFrameIndex();
+            return (first, last);
+        }
 
         // Saved to reduce repetition
         public List<Frame?> EmptyInteractableAnimationSequence { get; } = [];
@@ -67,11 +74,12 @@ namespace sainim.WPF.Stores
         public void OnAnimationDataLoaded()
             => AnimationDataLoaded?.Invoke();
 
-        public AnimationStore(OriginalImageStore originalImageStore)
+        public AnimationStore(OriginalImageStore originalImageStore, FrameRenderer frameRenderer)
         {
             EmptyInteractableAnimationSequence.AddRange(Enumerable.Repeat<Frame?>(null, FrameSpaceCount));
 
             _originalImageStore = originalImageStore;
+            _frameRenderer = frameRenderer;
             _originalImageStore.NewImageLoaded += LoadAnimationData;
         }
 
@@ -97,6 +105,18 @@ namespace sainim.WPF.Stores
             AnimationSequence.AddRange(EmptyInteractableAnimationSequence);
         }
 
-        
+        public void RenderMissingFrames(int firstFrameIndex, int lastFrameIndex, List<string> enabledLayerTypes)
+        {
+            var framesToRender = AnimationSequence.Skip(firstFrameIndex).Take(lastFrameIndex - firstFrameIndex + 1);
+            foreach (var frame in framesToRender)
+            {
+                if (frame is null)
+                    continue;
+                if (frame!.GetRenderedBitmap(enabledLayerTypes) is not null)
+                    continue;
+
+                frame!.RenderedBitmaps[enabledLayerTypes] = _frameRenderer.RenderFrame(frame!, _originalImageStore.CurrentImage!, enabledLayerTypes);
+            }
+        }
     }
 }

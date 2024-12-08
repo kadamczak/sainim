@@ -8,9 +8,9 @@ namespace sainim.WPF.Commands.PlayBarCommands
 {
     public class PlayAnimationCommand : CommandBase, INotifyPropertyChanged
     {
-        private OriginalImageStore _originalImageStore { get; }
-        private AnimationStore _animationStore { get; }
-        private FrameRenderer _frameRenderer { get; }
+        private OriginalImageStore _originalImageStore;
+        private AnimationStore _animationStore;
+        private readonly FrameRenderer _frameRenderer;
 
         private bool _isPlaying = false;
         public bool IsPlaying
@@ -50,7 +50,7 @@ namespace sainim.WPF.Commands.PlayBarCommands
         {
             return (s, e) =>
             {
-                if (IsOnLastFrame())
+                if (IsOnOrBeyondLastFrame())
                 {
                     if(!_animationStore.Repeating)
                         StopTimer();
@@ -64,7 +64,7 @@ namespace sainim.WPF.Commands.PlayBarCommands
             };
         }
 
-        private bool IsOnLastFrame() => _animationStore.CurrentFrameIndex == SavedLastFrameIndex;
+        private bool IsOnOrBeyondLastFrame() => _animationStore.CurrentFrameIndex >= SavedLastFrameIndex;
 
         private void StopTimer()
         {
@@ -102,8 +102,8 @@ namespace sainim.WPF.Commands.PlayBarCommands
                 return;
             }
 
-            SavedFirstFrameIndex = _animationStore.FindFirstFullFrameIndex();
-            SavedLastFrameIndex = _animationStore.FindLastFullFrameIndex();
+            (SavedFirstFrameIndex, SavedLastFrameIndex) = _animationStore.FindFirstAndLastFullFrameIndices();
+            List<string> enabledLayerTypes = _animationStore.SelectableLayerTypes.GetSelectedLayerTypes();
             bool isRepeating = _animationStore.Repeating;
 
             // Safeguards
@@ -115,10 +115,7 @@ namespace sainim.WPF.Commands.PlayBarCommands
             }
 
             IsPlaying = true;
-
-            // Render frames that have not been rendered yet
-            var enabledLayerTypes = _animationStore.SelectableLayerTypes.GetSelectedLayerTypes();
-            RenderMissingFrames(enabledLayerTypes);
+            _animationStore.RenderMissingFrames(SavedFirstFrameIndex, SavedLastFrameIndex, enabledLayerTypes);
 
             // Start playing
             StartTimer();
@@ -129,25 +126,10 @@ namespace sainim.WPF.Commands.PlayBarCommands
             if ((SavedFirstFrameIndex < 0) || (SavedFirstFrameIndex == SavedLastFrameIndex))
                 return false;
 
-            if (!isRepeating && IsOnLastFrame())
+            if (!isRepeating && IsOnOrBeyondLastFrame())
                 return false;
 
             return true;
-        }
-
-        private void RenderMissingFrames(List<string> enabledLayerTypes)
-        {
-            var framesToRender = _animationStore.AnimationSequence.Skip(SavedFirstFrameIndex).Take(SavedLastFrameIndex - SavedFirstFrameIndex + 1);
-
-            foreach (var frame in framesToRender)
-            {
-                if (frame is null)
-                    continue;
-                if (frame!.GetRenderedBitmap(enabledLayerTypes) is not null)
-                    continue;
-
-                frame!.RenderedBitmaps[enabledLayerTypes] = _frameRenderer.RenderFrame(frame!, _originalImageStore.CurrentImage!, enabledLayerTypes);
-            }
         }
     }
 }
