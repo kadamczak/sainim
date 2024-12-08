@@ -17,7 +17,7 @@ namespace sainim.WPF.ViewModels
         public ContentBarViewModel(OriginalImageStore originalImageStore)
         {
             _originalImageStore = originalImageStore;
-            _originalImageStore.NewImageLoaded += OnImageLoaded;
+            _originalImageStore.ImageLoaded += OnImageLoaded;
             _originalImageStore.ImageReloaded += OnImageLoaded;
         }
 

@@ -21,7 +21,7 @@ namespace sainim.WPF.Commands.MenuBarCommands
             _animationStore = animationStore;
             _messageBoxHelpers = messageBoxHelpers;
 
-            _originalImageStore.NewImageLoaded += OnCanExecuteChanged;
+            _originalImageStore.ImageLoaded += OnCanExecuteChanged;
         }
 
         public override void Execute(object? parameter)

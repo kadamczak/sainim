@@ -15,9 +15,11 @@ namespace sainim.WPF.ViewModels
     {
         public ICommand ImportPsdImage { get; } = new ImportPsdImageCommand(originalImageFactory, originalImageStore, messageBoxHelpers);
         public ICommand ExportGif { get; } = new ExportGifCommand(originalImageStore, animationStore, messageBoxHelpers);
-        public ICommand ReloadPsdImage { get; } = new ReloadPsdImageCommand(originalImageStore);
+        public ICommand ReloadPsdImage { get; } = new ReloadPsdImageCommand(originalImageFactory, originalImageStore, messageBoxHelpers);
 
         public ICommand ChangeLanguageToEnglish { get; } = new LoadStringResourcesCommand("en-US");
         public ICommand ChangeLanguageToPolish { get; } = new LoadStringResourcesCommand("pl");
+
+        public ICommand OpenCredits { get; } = new OpenCreditsCommand();
     }
 }

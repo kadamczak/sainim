@@ -14,7 +14,7 @@
                 <MenuItem Header="GIF" Command="{Binding ExportGif}"/>
             </MenuItem>
             <Separator/>
-            <MenuItem Header="{DynamicResource Reload}" Command="{Binding ReloadPsdImage}"/>
+            <MenuItem Header="{DynamicResource Reload}" Command="{Binding ReloadPsdImage}" InputGestureText="Ctrl+X"/>
         </MenuItem>
         <MenuItem Header="{DynamicResource Settings}">
             <MenuItem Header="{DynamicResource Language}">
@@ -23,7 +23,7 @@
             </MenuItem>
         </MenuItem>
         <MenuItem Header="{DynamicResource Info}">
-            <MenuItem Header="{DynamicResource Credits}"/>
+            <MenuItem Header="{DynamicResource Credits}" Command="{Binding OpenCredits}"/>
         </MenuItem>
     </Menu>
 </UserControl>

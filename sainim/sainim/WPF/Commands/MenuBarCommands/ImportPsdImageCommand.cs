@@ -30,7 +30,7 @@ namespace sainim.WPF.Commands.MenuBarCommands
                 try
                 {
                     OriginalImage newImage = _originalImageFactory.Create(openFileDialog.FileName);
-                    _originalImageStore.LoadNewImage(newImage);
+                    _originalImageStore.LoadImage(newImage);
                 }
                 catch(IOException e)
                 {

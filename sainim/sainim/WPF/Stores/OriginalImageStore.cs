@@ -6,22 +6,16 @@ namespace sainim.WPF.Stores
     {
         public OriginalImage? CurrentImage { get; private set; } = null;
 
-        public event Action NewImageLoaded;
-        public void OnNewImageLoaded() => NewImageLoaded?.Invoke();
+        public event Action ImageLoaded;
+        public void OnImageLoaded() => ImageLoaded?.Invoke();
 
         public event Action ImageReloaded;
         public void OnImageReloaded() => ImageReloaded?.Invoke();
 
-        public void LoadNewImage(OriginalImage newImage)
+        public void LoadImage(OriginalImage newImage)
         {
             CurrentImage = newImage;
-            OnNewImageLoaded();
-        }
-
-        public void ReloadImage(OriginalImage newImage)
-        {
-            CurrentImage = newImage;
-            OnImageReloaded();
+            OnImageLoaded();
         }
     }
 }

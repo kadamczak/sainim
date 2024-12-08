@@ -37,6 +37,9 @@
     <None Update="Resources\Images\empty.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Pages\Credits\credits.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Samples\dra.psd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

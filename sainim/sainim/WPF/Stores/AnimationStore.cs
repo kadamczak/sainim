@@ -80,7 +80,7 @@ namespace sainim.WPF.Stores
 
             _originalImageStore = originalImageStore;
             _frameRenderer = frameRenderer;
-            _originalImageStore.NewImageLoaded += LoadAnimationData;
+            _originalImageStore.ImageLoaded += LoadAnimationData;
         }
 
         public void LoadAnimationData()

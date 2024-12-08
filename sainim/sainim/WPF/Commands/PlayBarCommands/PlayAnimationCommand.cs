@@ -82,7 +82,7 @@ namespace sainim.WPF.Commands.PlayBarCommands
             _animationStore = animationStore;
             _frameRenderer = frameRenderer;
 
-            _originalImageStore.NewImageLoaded += StopTimer;
+            _originalImageStore.ImageLoaded += StopTimer;
             _animationStore.PropertyChanged += (s, e) => { if (e.PropertyName == nameof(AnimationStore.FrameRate)) UpdateTimerInterval(); };
         }
 

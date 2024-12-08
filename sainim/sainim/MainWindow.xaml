@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sainim" xmlns:views="clr-namespace:sainim.WPF.Views"
         mc:Ignorable="d"
-        Title="Sainim" MinWidth="650" MinHeight="496"  WindowState="Maximized" >
+        Title="Sainim" MinWidth="650" MinHeight="597"  WindowState="Maximized" >
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding MenuBarViewModel.ReloadPsdImage}" Gesture="CTRL+X" />
+    </Window.InputBindings>
+
     <Grid Background="DarkGray" >
         <Grid.RowDefinitions>
             <RowDefinition Height="23"/>
