@@ -10,7 +10,9 @@
     <Menu Grid.Row="0" Grid.ColumnSpan="3" Background="WhiteSmoke">
         <MenuItem Header="{DynamicResource File}">
             <MenuItem Header="{DynamicResource Import}" Command="{Binding ImportPsdImage}" />
-            <MenuItem Header="{DynamicResource Export}"/>
+            <MenuItem Header="{DynamicResource Export}">
+                <MenuItem Header="GIF" Command="{Binding ExportGif}"/>
+            </MenuItem>
             <Separator/>
             <MenuItem Header="{DynamicResource Reload}" Command="{Binding ReloadPsdImage}"/>
         </MenuItem>

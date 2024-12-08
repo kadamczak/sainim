@@ -96,5 +96,7 @@ namespace sainim.WPF.Stores
             AnimationSequence.Clear();
             AnimationSequence.AddRange(EmptyInteractableAnimationSequence);
         }
+
+        
     }
 }

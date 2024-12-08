@@ -13,6 +13,7 @@ namespace sainim.WPF.ViewModels
                                   MessageBoxHelpers messageBoxHelpers) : ViewModelBase
     {
         public ICommand ImportPsdImage { get; } = new ImportPsdImageCommand(originalImageFactory, originalImageStore, messageBoxHelpers);
+        public ICommand ExportGif { get; } = new ExportGifCommand(originalImageFactory, originalImageStore, messageBoxHelpers);
         public ICommand ReloadPsdImage { get; } = new ReloadPsdImageCommand(originalImageStore);
 
         public ICommand ChangeLanguageToEnglish { get; } = new LoadStringResourcesCommand("en-US");
