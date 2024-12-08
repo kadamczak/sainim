@@ -7,7 +7,19 @@
         mc:Ignorable="d"
         Title="Sainim" MinWidth="650" MinHeight="597"  WindowState="Maximized" >
     <Window.InputBindings>
-        <KeyBinding Command="{Binding MenuBarViewModel.ReloadPsdImage}" Gesture="CTRL+X" />
+        <KeyBinding Command="{Binding MenuBarViewModel.ImportPsdImage}" Key="F" />
+        <KeyBinding Command="{Binding MenuBarViewModel.ExportGif}" Key="G" />
+        <KeyBinding Command="{Binding MenuBarViewModel.ReloadPsdImage}" Key="X" />
+        
+        <KeyBinding Command="{Binding PlayBarViewModel.PlayAnimation}" Key="Space" />
+        <KeyBinding Command="{Binding PlayBarViewModel.JumpToFirstFrame}" Key="Q" />
+        <KeyBinding Command="{Binding PlayBarViewModel.JumpToLastFrame}" Key="E" />
+        <KeyBinding Command="{Binding PlayBarViewModel.ToggleRepeat}" Key="R" />
+        <KeyBinding Command="{Binding PlayBarViewModel.Back}" Key="A" />
+        <KeyBinding Command="{Binding PlayBarViewModel.Forward}" Key="D" />
+
+        <KeyBinding Command="{Binding PlayBarViewModel.IncreaseFPS}" Key="W" />
+        <KeyBinding Command="{Binding PlayBarViewModel.DecreaseFPS}" Key="S" />
     </Window.InputBindings>
 
     <Grid Background="DarkGray" >

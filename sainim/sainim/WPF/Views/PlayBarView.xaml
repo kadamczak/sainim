@@ -25,7 +25,7 @@
         </StackPanel>-->
 
         <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Bottom" >
-            <customui:ToggleIconButtonControl VerticalAlignment="Top" HorizontalAlignment="Center" Command="{Binding ToggleRepeat}"  ImageSource="/Resources/Images/repeat.png"  Width="50" Height="50"  />
+            <customui:ToggleIconButtonControl VerticalAlignment="Top" HorizontalAlignment="Center" Command="{Binding ToggleRepeat}" IsChecked="{Binding AnimationStore.Repeating, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  ImageSource="/Resources/Images/repeat.png"  Width="50" Height="50"  />
             
             <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding JumpToFirstFrame}" ImageSource="/Resources/Images/tobegin.png" Width="50" Height="50" Margin="0 20 0 0" />
             

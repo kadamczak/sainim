@@ -3,13 +3,14 @@ using sainim.WPF.Stores;
 
 namespace sainim.WPF.Commands.PlayBarCommands
 {
-    public class ToggleRepeatCommand(AnimationStore animationStore) : CommandBase
+    public class BackCommand(AnimationStore animationStore) : CommandBase
     {
         private AnimationStore AnimationStore { get; } = animationStore;
 
         public override void Execute(object? parameter)
         {
-            AnimationStore.Repeating = !AnimationStore.Repeating;
+            if (AnimationStore.CurrentFrameIndex > 0)
+                AnimationStore.CurrentFrameIndex--;
         }
     }
 }

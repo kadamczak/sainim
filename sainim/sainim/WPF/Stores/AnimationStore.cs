@@ -44,7 +44,17 @@ namespace sainim.WPF.Stores
         }
         public double GetMillisecondsBetweenFrames() => 1000.0 / FrameRate;
 
-        public bool Repeating { get; set; } = false;
+        private bool _repeating = false;
+        public bool Repeating
+        {
+            get => _repeating;
+            set
+            {
+                _repeating = value;
+                OnPropertyChanged(nameof(Repeating));
+            }
+        }
+
         public SelectableLayerTypes SelectableLayerTypes { get; } = new();
 
         // References to data

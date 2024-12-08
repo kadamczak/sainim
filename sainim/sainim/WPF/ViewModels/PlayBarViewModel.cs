@@ -15,6 +15,10 @@ namespace sainim.WPF.ViewModels
         public ICommand JumpToFirstFrame { get; }
         public ICommand PlayAnimation { get; }
         public ICommand JumpToLastFrame { get; }
+        public ICommand Forward { get; }
+        public ICommand Back { get; }
+        public ICommand IncreaseFPS { get; }
+        public ICommand DecreaseFPS { get; }
 
         public PlayBarViewModel(OriginalImageStore originalImageStore, AnimationStore animationStore, FrameRenderer frameRenderer)
         {
@@ -22,9 +26,15 @@ namespace sainim.WPF.ViewModels
             AnimationStore = animationStore;
 
             ToggleRepeat = new ToggleRepeatCommand(animationStore);
+
             JumpToFirstFrame = new JumpToFirstFrameCommand(animationStore);
             PlayAnimation = new PlayAnimationCommand(originalImageStore, animationStore, frameRenderer);
             JumpToLastFrame = new JumpToLastFrameCommand(animationStore);
+            Back = new BackCommand(animationStore);
+            Forward = new ForwardCommand(animationStore);
+
+            IncreaseFPS = new IncreaseFPSCommand(animationStore);
+            DecreaseFPS = new DecreaseFPSCommand(animationStore);
         }
     }
 }

@@ -6,15 +6,16 @@
              xmlns:local="clr-namespace:sainim.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+   
     
     <Menu Grid.Row="0" Grid.ColumnSpan="3" Background="WhiteSmoke">
         <MenuItem Header="{DynamicResource File}">
-            <MenuItem Header="{DynamicResource Import}" Command="{Binding ImportPsdImage}" />
+            <MenuItem Header="{DynamicResource Import}" Command="{Binding ImportPsdImage}" InputGestureText="F"/>
             <MenuItem Header="{DynamicResource Export}">
-                <MenuItem Header="GIF" Command="{Binding ExportGif}"/>
+                <MenuItem Header="GIF" Command="{Binding ExportGif}" InputGestureText="G"/>
             </MenuItem>
             <Separator/>
-            <MenuItem Header="{DynamicResource Reload}" Command="{Binding ReloadPsdImage}" InputGestureText="Ctrl+X"/>
+            <MenuItem Header="{DynamicResource Reload}" Command="{Binding ReloadPsdImage}" InputGestureText="X"/>
         </MenuItem>
         <MenuItem Header="{DynamicResource Settings}">
             <MenuItem Header="{DynamicResource Language}">

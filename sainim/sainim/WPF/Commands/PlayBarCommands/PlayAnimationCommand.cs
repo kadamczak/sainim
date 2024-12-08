@@ -69,8 +69,7 @@ namespace sainim.WPF.Commands.PlayBarCommands
         private void StopTimer()
         {
             timer?.Stop();
-            IsPlaying = false;
-            IsChecked = false;
+            UpdateCommandStatus(false);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -96,7 +95,7 @@ namespace sainim.WPF.Commands.PlayBarCommands
 
         public override void Execute(object? parameter)
         {
-            if (IsPlaying)
+            if (IsPlaying)  //IsChecked cannot be used for this because ToggleButton updates this immediately
             {
                 StopTimer();
                 return;
@@ -109,12 +108,11 @@ namespace sainim.WPF.Commands.PlayBarCommands
             // Safeguards
             if (!AnimationCanPlay(isRepeating))
             {
-                IsPlaying = false;
-                IsChecked = false;
+                UpdateCommandStatus(false);
                 return;
             }
 
-            IsPlaying = true;
+            UpdateCommandStatus(true);
             _animationStore.RenderMissingFrames(SavedFirstFrameIndex, SavedLastFrameIndex, enabledLayerTypes);
 
             // Start playing
@@ -130,6 +128,12 @@ namespace sainim.WPF.Commands.PlayBarCommands
                 return false;
 
             return true;
+        }
+
+        private void UpdateCommandStatus(bool value)
+        {
+            IsPlaying = value;
+            IsChecked = value;
         }
     }
 }
