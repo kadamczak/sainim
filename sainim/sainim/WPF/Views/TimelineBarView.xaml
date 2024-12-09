@@ -68,7 +68,7 @@
                 TickFrequency="1" 
                 IsSnapToTickEnabled="True" 
                 TickPlacement="TopLeft"
-                Grid.Row="2" Grid.Column="1" Margin="3 0 0 0" Padding="0" />
+                Grid.Row="2" Grid.Column="1" Margin="3 0 0 0" Padding="0"  Focusable="False" />
 
 
 

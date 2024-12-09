@@ -25,16 +25,16 @@
         </StackPanel>-->
 
         <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Bottom" >
-            <customui:ToggleIconButtonControl VerticalAlignment="Top" HorizontalAlignment="Center" Command="{Binding ToggleRepeat}" IsChecked="{Binding AnimationStore.Repeating, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  ImageSource="/Resources/Images/repeat.png"  Width="50" Height="50"  />
-            
-            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding JumpToFirstFrame}" ImageSource="/Resources/Images/tobegin.png" Width="50" Height="50" Margin="0 20 0 0" />
-            
-            <customui:ToggleIconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/play.png" Width="56" Height="56"  Margin="0 5 0 0" IsChecked="{Binding PlayAnimation.IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            
-            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding JumpToLastFrame}" ImageSource="/Resources/Images/toend.png" Width="50" Height="50" Margin="0 5 0 0" />
+            <customui:ToggleIconButtonControl VerticalAlignment="Top" HorizontalAlignment="Center" Command="{Binding ToggleRepeat}" IsChecked="{Binding AnimationStore.Repeating, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  ImageSource="/Resources/Images/repeat.png"  Width="50" Height="50" Focusable="False" />
+
+            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding JumpToFirstFrame}" ImageSource="/Resources/Images/tobegin.png" Width="50" Height="50" Margin="0 20 0 0"   Focusable="False"/>
+
+            <customui:ToggleIconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlayAnimation}" ImageSource="/Resources/Images/play.png" Width="56" Height="56"  Margin="0 5 0 0" IsChecked="{Binding PlayAnimation.IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   Focusable="False"/>
+
+            <customui:IconButtonControl VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding JumpToLastFrame}" ImageSource="/Resources/Images/toend.png" Width="50" Height="50" Margin="0 5 0 0"  Focusable="False" />
 
             <StackPanel Orientation="Horizontal" Height="30" Margin="0 40 0 0" HorizontalAlignment="Center" >
-                <xctk:IntegerUpDown Width="40"  FontSize="14" Value="{Binding AnimationStore.FrameRate}" Minimum="1" Maximum="60" />
+                <xctk:IntegerUpDown Width="40"  FontSize="14" Value="{Binding AnimationStore.FrameRate}" Minimum="1" Maximum="60" Focusable="False" />
                 <Label Content="FPS" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
@@ -59,7 +59,7 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected, Mode=TwoWay}" Padding="0" VerticalAlignment="Center" ToolTipService.ShowOnDisabled="True"/>
+                                <CheckBox Focusable="False" Grid.Column="0" IsChecked="{Binding IsSelected, Mode=TwoWay}" Padding="0" VerticalAlignment="Center" ToolTipService.ShowOnDisabled="True"/>
                                 <TextBlock Grid.Column="1" Foreground="Black" Margin="5 0 0 0" FontSize="15" Name="txtChkSelectedCat" Text="{Binding Name, Converter={StaticResource EmptyOrNullStringConverter}, ConverterParameter=Unnamed}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"   />
                             </Grid>
                         </DataTemplate>

@@ -106,11 +106,14 @@ namespace sainim.WPF.Commands.PlayBarCommands
             bool isRepeating = _animationStore.Repeating;
 
             // Safeguards
-            if (!AnimationCanPlay(isRepeating))
+            if (!AnimationCanPlay())
             {
                 UpdateCommandStatus(false);
                 return;
             }
+
+            if (!isRepeating && IsOnOrBeyondLastFrame())
+                _animationStore.CurrentFrameIndex = SavedFirstFrameIndex;
 
             UpdateCommandStatus(true);
             _animationStore.RenderMissingFrames(SavedFirstFrameIndex, SavedLastFrameIndex, enabledLayerTypes);
@@ -119,16 +122,8 @@ namespace sainim.WPF.Commands.PlayBarCommands
             StartTimer();
         }
 
-        private bool AnimationCanPlay(bool isRepeating)
-        {
-            if ((SavedFirstFrameIndex < 0) || (SavedFirstFrameIndex == SavedLastFrameIndex))
-                return false;
-
-            if (!isRepeating && IsOnOrBeyondLastFrame())
-                return false;
-
-            return true;
-        }
+        private bool AnimationCanPlay()
+            => (SavedFirstFrameIndex >= 0) && (SavedFirstFrameIndex != SavedLastFrameIndex);
 
         private void UpdateCommandStatus(bool value)
         {
