@@ -1,2 +1,2 @@
-# sainim
-Animation tool for layered images
+# Sainim
+MVVM WPF tool for creating animations from layered images
