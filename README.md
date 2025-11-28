@@ -1,34 +1,32 @@
 # Sainim
 
-A WPF desktop application for creating animations from layered PSD files. Transform static layered artwork into animated GIFs with precise control over frame composition.
+A WPF desktop application that converts layered PSD artwork into animated GIFs. Sainim automatically combines multiple layers into single animation frames based on a simple naming convention.
+
+## What It Does
+
+Sainim takes your layered PSD files and turns them into animated GIFs. The key feature: **multiple layers can be merged into a single animation frame** using a numbered naming system.
+
+### Example
+If you have layers named:
+- `1_lineart` (the outline)
+- `1_color` (the colors)
+- `2_lineart` (next frame's outline)
+- `2_color` (next frame's colors)
+
+Sainim will create a 2-frame animation where frame 1 combines `1_lineart` + `1_color`, and frame 2 combines `2_lineart` + `2_color`.
 
 ## Features
 
-- **PSD Layer Import**: Load PSD files and automatically parse layers into animation frames
-- **Frame Management**: 
-  - Combine multiple layers into single frames using numbered naming scheme
-  - Preview individual frames
-- **Layer Organization**:
-  - **Frame Sublayers**: Numbered layers (e.g., `1_lineart`, `1_color`) that combine into single frames
-  - **Static Background Layers**: Elements that remain constant throughout the animation, shown behind it
-  - **Static Foreground Layers**: Static overlays applied on top of animated frames
-- **Layer Type Control**: Toggle visibility of different layer types (background, foreground, specific sublayer categories)
-- **Animation Playback**: Preview animations with adjustable speed and repeat settings
+- **PSD Import**: Automatically parses layered PSD files into animation frames
+- **Smart Layer Organization**:
+  - **Frame Sublayers**: Layers named `{number}_{label}` (like `1_lineart`, `1_color`) are merged into single frames based on their number
+  - **Static Backgrounds**: Layers without underscores positioned below animation frames act as constant backgrounds
+  - **Static Foregrounds**: Layers without underscores positioned above animation frames act as overlays
+- **Playback Controls**: Preview your animation with adjustable speed and loop settings
 - **GIF Export**: 
-  - Export animations as GIF files
-  - Configurable frame rate and loop settings
-  - Selective frame export with enabled layer types
-
-## Layer Naming Scheme
-
-Sainim uses layer names to determine their role in the animation:
-
-- **Static Layers**: Simple names without separators (e.g., `background`, `overlay`)
-  - Positioned before frame layers become background elements
-  - Positioned after frame layers become foreground elements
-- **Frame Sublayers**: Numbered format `{frameNumber}_{specialLabel}` (e.g., `1_lineart`, `1_color`, `2_lineart`)
-  - Layers with the same frame number are merged into a single frame
-  - Special labels allow selective layer type toggling during export
+  - Configure frame rate and loop behavior
+  - Selectively enable/disable layer types (e.g., export only lineart without color)
+- **Localization**: Switch between English and Polish interface
 
 ## Tech Stack
 
